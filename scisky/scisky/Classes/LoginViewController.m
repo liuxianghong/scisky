@@ -13,7 +13,7 @@
 @property (nonatomic,weak) IBOutlet UITextField *textFiledPhone;
 @property (nonatomic,weak) IBOutlet UITextField *textFiledPassWord;
 
-@property (nonatomic,weak) IBOutlet UIButton *loginButton;
+@property (nonatomic,weak) IBOutlet UIButton *buttomButton;
 @end
 
 @implementation LoginViewController
@@ -21,11 +21,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [IHKeyboardAvoiding setAvoidingView:self.view withTarget:self.loginButton];
     
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
-    tapGestureRecognizer.cancelsTouchesInView = NO;
+    tapGestureRecognizer.cancelsTouchesInView = YES;
     [self.view addGestureRecognizer:tapGestureRecognizer];
+    
+    [self.textFiledPassWord setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    self.textFiledPassWord.tintColor = [UIColor whiteColor];
+    [self.textFiledPhone setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    self.textFiledPhone.tintColor = [UIColor whiteColor];
     
 }
 
@@ -37,12 +41,16 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [IHKeyboardAvoiding setAvoidingView:self.view withTarget:self.buttomButton];
     [super viewWillAppear:animated];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [IHKeyboardAvoiding removeTarget:self.buttomButton];
+    [self.textFiledPhone resignFirstResponder];
+    [self.textFiledPassWord resignFirstResponder];
     [super viewWillDisappear:animated];
 }
 
@@ -53,6 +61,8 @@
 
 -(IBAction)loginClick:(id)sender
 {
+    [[NSUserDefaults standardUserDefaults]setObject:@"123" forKey:@"UID"];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 /*
 #pragma mark - Navigation

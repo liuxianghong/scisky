@@ -1,38 +1,34 @@
 //
-//  MainViewController.m
+//  ServiceProtocolViewController.m
 //  scisky
 //
 //  Created by 刘向宏 on 15/6/10.
 //  Copyright (c) 2015年 刘向宏. All rights reserved.
 //
 
-#import "MainViewController.h"
+#import "ServiceProtocolViewController.h"
 
-@interface MainViewController ()
+@interface ServiceProtocolViewController ()
 
 @end
 
-@implementation MainViewController
+@implementation ServiceProtocolViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
-        UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
-        [self presentViewController:loginVC animated:NO completion:nil];
-    }
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(IBAction)backClick:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 /*
 #pragma mark - Navigation

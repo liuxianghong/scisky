@@ -73,6 +73,16 @@
         UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"RecommendVC"];
         [self.viewDeckController.theNavigationController pushViewController:vc animated:YES];
     }
+    else if(indexPath.row==6)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"UID"];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
+        [self.viewDeckController.theNavigationController presentViewController:loginVC animated:YES completion:nil];
+        [self.viewDeckController closeLeftViewAnimated:YES];
+        
+        
+    }
 }
 //- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 //    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"leftCell" forIndexPath:indexPath];

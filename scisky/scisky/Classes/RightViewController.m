@@ -8,9 +8,20 @@
 
 #import "RightViewController.h"
 #import "RightTableViewCell.h"
+#import "IIViewDeckController.h"
 
 @interface RightViewController ()<UITableViewDataSource,UITableViewDelegate>
+@property (nonatomic,weak) IBOutlet UILabel *nameLabel;
+@property (nonatomic,weak) IBOutlet UILabel *phoneLabel;
+@property (nonatomic,weak) IBOutlet UIImageView *headImage;
 
+@property (nonatomic,weak) IBOutlet UILabel *constructionSingleLabel;
+@property (nonatomic,weak) IBOutlet UILabel *balanceLabel;
+@property (nonatomic,weak) IBOutlet UILabel *commissionLabel;
+
+@property (nonatomic,weak) IBOutlet UIView *constructionSingleView;
+@property (nonatomic,weak) IBOutlet UIView *balanceView;
+@property (nonatomic,weak) IBOutlet UIView *commissionView;
 @end
 
 @implementation RightViewController
@@ -18,6 +29,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [SSUIStyle ViewaddGestureRecognizer:self.constructionSingleView WithTarget:self action:@selector(ShowConstructionSingle:)];
+    [SSUIStyle ViewaddGestureRecognizer:self.balanceView WithTarget:self action:@selector(ShowbalanceView:)];
+    [SSUIStyle ViewaddGestureRecognizer:self.commissionView WithTarget:self action:@selector(ShowcommissionView:)];
+    
+}
+
+-(void)ShowConstructionSingle:(UITapGestureRecognizer*)tap{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ConstructionSingleVC"];
+    [self.viewDeckController.theNavigationController pushViewController:vc animated:YES];
+}
+
+-(void)ShowbalanceView:(UITapGestureRecognizer*)tap{
+}
+
+-(void)ShowcommissionView:(UITapGestureRecognizer*)tap{
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,7 +62,7 @@
 {
     RightTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"rightVCCell" forIndexPath:indexPath];
     cell.labelNum.hidden = YES;
-    if (indexPath.row==1) {
+    if (indexPath.row==0) {
         cell.labelTitle.text = @"个人资料";
     }
     else if (indexPath.row==1) {
@@ -46,6 +74,21 @@
         cell.labelTitle.text = @"修改密码";
     }
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row==0) {
+    }
+    else if (indexPath.row==1) {
+        [self ShowConstructionSingle:nil];
+    }
+    else
+    {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ModifPWVC"];
+        [self.viewDeckController.theNavigationController pushViewController:vc animated:YES];
+    }
 }
 /*
 #pragma mark - Navigation

@@ -24,4 +24,11 @@
     view.layer.borderColor = [[UIColor grayColor] CGColor];
     view.layer.masksToBounds = YES;
 }
+
++(void)ViewaddGestureRecognizer:(UIView *)view WithTarget:(id)target action:(SEL)action
+{
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:target action:action];
+    tapGestureRecognizer.cancelsTouchesInView = YES;
+    [view addGestureRecognizer:tapGestureRecognizer];
+}
 @end

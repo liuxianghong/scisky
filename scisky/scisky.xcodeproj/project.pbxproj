@@ -216,6 +216,15 @@
 		D332B6F71B275E1A00041999 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D332B6F61B275E1A00041999 /* Login.storyboard */; };
 		D332B6FB1B275F8300041999 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D332B6FA1B275F8300041999 /* LoginViewController.m */; };
 		D332B6FE1B275FD100041999 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D332B6FD1B275FD100041999 /* MainViewController.m */; };
+		D332B7011B27D27B00041999 /* ForgetPWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D332B7001B27D27B00041999 /* ForgetPWViewController.m */; };
+		D332B7041B27F03500041999 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D332B7031B27F03500041999 /* RegisterViewController.m */; };
+		D332B7071B27F45F00041999 /* ServiceProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D332B7061B27F45F00041999 /* ServiceProtocolViewController.m */; };
+		D332B70A1B27F66400041999 /* PerfectDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D332B7091B27F66400041999 /* PerfectDataTableViewController.m */; };
+		D332B70E1B28325C00041999 /* Upload_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = D332B70B1B28325C00041999 /* Upload_btn.png */; };
+		D332B70F1B28325C00041999 /* Upload_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D332B70C1B28325C00041999 /* Upload_btn@2x.png */; };
+		D332B7101B28325C00041999 /* Upload_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D332B70D1B28325C00041999 /* Upload_btn@3x.png */; };
+		D332B7141B2882C000041999 /* ModifPWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D332B7131B2882C000041999 /* ModifPWViewController.m */; };
+		D332B7171B288C7C00041999 /* ConstructionSingleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D332B7161B288C7C00041999 /* ConstructionSingleViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -488,6 +497,21 @@
 		D332B6FA1B275F8300041999 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		D332B6FC1B275FD100041999 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		D332B6FD1B275FD100041999 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		D332B6FF1B27D27B00041999 /* ForgetPWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgetPWViewController.h; sourceTree = "<group>"; };
+		D332B7001B27D27B00041999 /* ForgetPWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPWViewController.m; sourceTree = "<group>"; };
+		D332B7021B27F03500041999 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		D332B7031B27F03500041999 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		D332B7051B27F45F00041999 /* ServiceProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceProtocolViewController.h; sourceTree = "<group>"; };
+		D332B7061B27F45F00041999 /* ServiceProtocolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceProtocolViewController.m; sourceTree = "<group>"; };
+		D332B7081B27F66400041999 /* PerfectDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerfectDataTableViewController.h; sourceTree = "<group>"; };
+		D332B7091B27F66400041999 /* PerfectDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerfectDataTableViewController.m; sourceTree = "<group>"; };
+		D332B70B1B28325C00041999 /* Upload_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Upload_btn.png; path = ../../Classes/Upload_btn.png; sourceTree = "<group>"; };
+		D332B70C1B28325C00041999 /* Upload_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Upload_btn@2x.png"; path = "../../Classes/Upload_btn@2x.png"; sourceTree = "<group>"; };
+		D332B70D1B28325C00041999 /* Upload_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Upload_btn@3x.png"; path = "../../Classes/Upload_btn@3x.png"; sourceTree = "<group>"; };
+		D332B7121B2882C000041999 /* ModifPWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifPWViewController.h; sourceTree = "<group>"; };
+		D332B7131B2882C000041999 /* ModifPWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifPWViewController.m; sourceTree = "<group>"; };
+		D332B7151B288C7C00041999 /* ConstructionSingleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConstructionSingleViewController.h; sourceTree = "<group>"; };
+		D332B7161B288C7C00041999 /* ConstructionSingleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConstructionSingleViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -718,16 +742,13 @@
 				D332B6FD1B275FD100041999 /* MainViewController.m */,
 				D332B6F81B275F6100041999 /* Login */,
 				D332B6EF1B27417900041999 /* Left */,
+				D332B7111B2881CA00041999 /* Right */,
 				D332B59D1B26CBD100041999 /* HomeViewController.h */,
 				D332B59E1B26CBD100041999 /* HomeViewController.m */,
 				D332B5A31B26D01A00041999 /* CenterTableViewController.h */,
 				D332B5A41B26D01A00041999 /* CenterTableViewController.m */,
 				D332B6EC1B271EC200041999 /* CenterTableViewCell.h */,
 				D332B6ED1B271EC200041999 /* CenterTableViewCell.m */,
-				D332B5A61B26D05200041999 /* RightViewController.h */,
-				D332B5A71B26D05200041999 /* RightViewController.m */,
-				D332B6E91B2709FB00041999 /* RightTableViewCell.h */,
-				D332B6EA1B2709FB00041999 /* RightTableViewCell.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -735,6 +756,9 @@
 		D332B5A91B26D7B900041999 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D332B70B1B28325C00041999 /* Upload_btn.png */,
+				D332B70C1B28325C00041999 /* Upload_btn@2x.png */,
+				D332B70D1B28325C00041999 /* Upload_btn@3x.png */,
 				D332B5AA1B26D7B900041999 /* Balance-bottom-frame@2x.png */,
 				D332B5AB1B26D7B900041999 /* Balance-bottom-frame@3x.png */,
 				D332B5AC1B26D7B900041999 /* Balance-bottom-frame@x.png */,
@@ -915,8 +939,31 @@
 			children = (
 				D332B6F91B275F8300041999 /* LoginViewController.h */,
 				D332B6FA1B275F8300041999 /* LoginViewController.m */,
+				D332B6FF1B27D27B00041999 /* ForgetPWViewController.h */,
+				D332B7001B27D27B00041999 /* ForgetPWViewController.m */,
+				D332B7021B27F03500041999 /* RegisterViewController.h */,
+				D332B7031B27F03500041999 /* RegisterViewController.m */,
+				D332B7081B27F66400041999 /* PerfectDataTableViewController.h */,
+				D332B7091B27F66400041999 /* PerfectDataTableViewController.m */,
+				D332B7051B27F45F00041999 /* ServiceProtocolViewController.h */,
+				D332B7061B27F45F00041999 /* ServiceProtocolViewController.m */,
 			);
 			name = Login;
+			sourceTree = "<group>";
+		};
+		D332B7111B2881CA00041999 /* Right */ = {
+			isa = PBXGroup;
+			children = (
+				D332B5A61B26D05200041999 /* RightViewController.h */,
+				D332B5A71B26D05200041999 /* RightViewController.m */,
+				D332B6E91B2709FB00041999 /* RightTableViewCell.h */,
+				D332B6EA1B2709FB00041999 /* RightTableViewCell.m */,
+				D332B7121B2882C000041999 /* ModifPWViewController.h */,
+				D332B7131B2882C000041999 /* ModifPWViewController.m */,
+				D332B7151B288C7C00041999 /* ConstructionSingleViewController.h */,
+				D332B7161B288C7C00041999 /* ConstructionSingleViewController.m */,
+			);
+			name = Right;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1088,6 +1135,7 @@
 				D332B6711B26D7BA00041999 /* Home-cancel-order-Click@3x.png in Resources */,
 				D332B66C1B26D7BA00041999 /* Feedback-bottom-box01@x.png in Resources */,
 				D332B6C91B26D7BA00041999 /* Modify-data-base@3x.png in Resources */,
+				D332B70E1B28325C00041999 /* Upload_btn.png in Resources */,
 				D332B6D51B26D7BA00041999 /* Personal-Center-Avatar@3x.png in Resources */,
 				D332B6AD1B26D7BA00041999 /* Icon-order-details-prices@2x.png in Resources */,
 				D332B6821B26D7BA00041999 /* Icon-Home-bottom-box@2x.png in Resources */,
@@ -1095,6 +1143,7 @@
 				D332B6B91B26D7BA00041999 /* Icon-setting-arrow@2x.png in Resources */,
 				D332B66F1B26D7BA00041999 /* Feedback-bottom-box02@x.png in Resources */,
 				D332B6CD1B26D7BA00041999 /* Opinion-feedback-bomb-box@x.png in Resources */,
+				D332B70F1B28325C00041999 /* Upload_btn@2x.png in Resources */,
 				D332B64A1B26D7BA00041999 /* Balance-bottom-frame@x.png in Resources */,
 				D332B6B71B26D7BA00041999 /* Icon-personal-data-modified@3x.png in Resources */,
 				D332B6E11B26D7BA00041999 /* Personal-Center-star@3x.png in Resources */,
@@ -1126,6 +1175,7 @@
 				D332B6681B26D7BA00041999 /* Button-setting-normal@3x.png in Resources */,
 				D332B6D61B26D7BA00041999 /* Personal-Center-Avatar@x.png in Resources */,
 				D332B6A11B26D7BA00041999 /* Icon-order-details-item-name@2x.png in Resources */,
+				D332B7101B28325C00041999 /* Upload_btn@3x.png in Resources */,
 				D332B6CA1B26D7BA00041999 /* Modify-data-base@x.png in Resources */,
 				D332B6CE1B26D7BA00041999 /* Order-details-bottom-frame@2x.png in Resources */,
 				D332B6C51B26D7BA00041999 /* Modify-data-Avatar@2x.png in Resources */,
@@ -1184,6 +1234,7 @@
 				D332B58A1B26A97800041999 /* SDWebImageManager.m in Sources */,
 				D332B5891B26A97800041999 /* SDWebImageDownloaderOperation.m in Sources */,
 				D332B6E81B26E3A200041999 /* SSUIStyle.m in Sources */,
+				D332B7141B2882C000041999 /* ModifPWViewController.m in Sources */,
 				D332B5761B26A97800041999 /* AFHTTPRequestOperation.m in Sources */,
 				D332B5851B26A97800041999 /* SDImageCache.m in Sources */,
 				D332B5111B26A6E600041999 /* ViewController.m in Sources */,
@@ -1200,6 +1251,7 @@
 				D332B5A81B26D05200041999 /* RightViewController.m in Sources */,
 				D332B5781B26A97800041999 /* AFHTTPSessionManager.m in Sources */,
 				D332B57F1B26A97800041999 /* IHKeyboardAvoiding.m in Sources */,
+				D332B70A1B27F66400041999 /* PerfectDataTableViewController.m in Sources */,
 				D332B6FB1B275F8300041999 /* LoginViewController.m in Sources */,
 				D332B5861B26A97800041999 /* SDWebImageCompat.m in Sources */,
 				D332B6F51B274B4A00041999 /* FeedBackTableViewController.m in Sources */,
@@ -1207,6 +1259,7 @@
 				D332B5871B26A97800041999 /* SDWebImageDecoder.m in Sources */,
 				D332B6F21B2741DE00041999 /* RecommendViewController.m in Sources */,
 				D332B5921B26A97800041999 /* UIView+AHKit.m in Sources */,
+				D332B7011B27D27B00041999 /* ForgetPWViewController.m in Sources */,
 				D332B57C1B26A97800041999 /* AFURLRequestSerialization.m in Sources */,
 				D332B58C1B26A97800041999 /* UIButton+WebCache.m in Sources */,
 				D332B5811B26A97800041999 /* README.md in Sources */,
@@ -1214,13 +1267,16 @@
 				D332B57E1B26A97800041999 /* AFURLSessionManager.m in Sources */,
 				D332B5911B26A97800041999 /* UIView+WebCacheOperation.m in Sources */,
 				D332B50E1B26A6E600041999 /* AppDelegate.m in Sources */,
+				D332B7041B27F03500041999 /* RegisterViewController.m in Sources */,
 				D332B50B1B26A6E600041999 /* main.m in Sources */,
 				D332B5821B26A97800041999 /* JSONKit.m in Sources */,
 				D332B6EB1B2709FB00041999 /* RightTableViewCell.m in Sources */,
+				D332B7171B288C7C00041999 /* ConstructionSingleViewController.m in Sources */,
 				D332B5881B26A97800041999 /* SDWebImageDownloader.m in Sources */,
 				D332B5901B26A97800041999 /* UIImageView+WebCache.m in Sources */,
 				D332B58F1B26A97800041999 /* UIImageView+HighlightedWebCache.m in Sources */,
 				D332B5A51B26D01A00041999 /* CenterTableViewController.m in Sources */,
+				D332B7071B27F45F00041999 /* ServiceProtocolViewController.m in Sources */,
 				D332B5831B26A97800041999 /* MBProgressHUD.m in Sources */,
 				D332B59F1B26CBD100041999 /* HomeViewController.m in Sources */,
 				D332B5951B26A97800041999 /* IIWrapController.m in Sources */,

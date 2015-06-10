@@ -14,4 +14,5 @@
 @interface SSUIStyle : NSObject
 +(void)RoundStyle:(UIView *)view;
 +(void)RoundStyle:(UIView *)view rect:(CGFloat)round;
++(void)ViewaddGestureRecognizer:(UIView *)view WithTarget:(id)target action:(SEL)action;
 @end
