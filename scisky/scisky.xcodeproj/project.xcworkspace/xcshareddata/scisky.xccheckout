@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>0704153C-27E1-498B-A79C-E7CFD9900350</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>scisky</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>560BD52B4BA1E8768DC79B764602A8D1DE1DC661</key>
 		<string>https://github.com/liuxianghong/scisky.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>scisky/scisky.xcodeproj/project.xcworkspace</string>
+	<string>scisky/scisky.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>560BD52B4BA1E8768DC79B764602A8D1DE1DC661</key>

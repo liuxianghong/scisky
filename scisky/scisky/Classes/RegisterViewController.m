@@ -18,7 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    CGRect tableViewHeaderRect = self.tableView.tableFooterView.frame;
+    CGRect tableViewHeaderRect = self.tableView.tableHeaderView.frame;
     tableViewHeaderRect.size.height = 40.0f;
     [self.tableView.tableHeaderView setFrame:tableViewHeaderRect];
     
@@ -26,10 +26,8 @@
     tableViewFooterRect.size.height = 78.0f+10;
     [self.tableView.tableFooterView setFrame:tableViewFooterRect];
     
-    NSMutableAttributedString *content = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"水性科天用户服务协议"]];
-    NSRange contentRange = {0,[content length]};
-    [content addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];
-    self.btnSeeFile.titleLabel.attributedText = content;
+    [SSUIStyle ButtonAttributedTitle:self.btnSeeFile title:@"水性科天用户服务协议"];
+    
     
     self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }

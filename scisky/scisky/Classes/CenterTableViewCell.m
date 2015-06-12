@@ -32,4 +32,18 @@
     self.labelContent.text = StringNoNull(dic[@"dic"]);
     self.labelPrice.text = StringNoNull(dic[@"dic"]);
 }
+
+-(IBAction)btnCancelClick:(id)sender
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(centerTableViewCellButtonClicked:)]) {
+        [self.delegate centerTableViewCellButtonClicked:0];
+    }
+}
+
+-(IBAction)btnSeeDetailClick:(id)sender
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(centerTableViewCellButtonClicked:)]) {
+        [self.delegate centerTableViewCellButtonClicked:1];
+    }
+}
 @end

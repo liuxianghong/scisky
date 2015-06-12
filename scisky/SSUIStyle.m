@@ -31,4 +31,20 @@
     tapGestureRecognizer.cancelsTouchesInView = YES;
     [view addGestureRecognizer:tapGestureRecognizer];
 }
+
++(void)ButtonAttributedTitle:(UIButton *)btn title:(NSString *)str
+{
+    NSMutableAttributedString *content = [[NSMutableAttributedString alloc]initWithString:str];
+    NSRange contentRange = {0,[content length]};
+    [content addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];
+    btn.titleLabel.attributedText = content;
+}
+
++(void)LabelAttributedTitle:(UILabel *)label title:(NSString *)str
+{
+    NSMutableAttributedString *content = [[NSMutableAttributedString alloc]initWithString:str];
+    NSRange contentRange = {0,[content length]};
+    [content addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:contentRange];
+    label.attributedText = content;
+}
 @end

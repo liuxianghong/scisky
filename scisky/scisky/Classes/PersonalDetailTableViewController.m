@@ -1,20 +1,21 @@
 //
-//  CenterTableViewController.m
+//  PersonalDetailTableViewController.m
 //  scisky
 //
-//  Created by 刘向宏 on 15/6/9.
+//  Created by 刘向宏 on 15/6/12.
 //  Copyright (c) 2015年 刘向宏. All rights reserved.
 //
 
-#import "CenterTableViewController.h"
-#import "IIViewDeckController.h"
-#import "CenterTableViewCell.h"
+#import "PersonalDetailTableViewController.h"
 
-@interface CenterTableViewController ()<centerTableViewCellDelegate,UIAlertViewDelegate>
+@interface PersonalDetailTableViewController ()
 
 @end
 
-@implementation CenterTableViewController
+@implementation PersonalDetailTableViewController
+{
+    UIImageView *imageView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,7 +26,11 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.tableFooterView = [UIView new];
-    self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    
+    imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Modify-data-base"]];
+    imageView.frame = CGRectInset(self.tableView.bounds, 0, 10);
+    [self.tableView addSubview:imageView];
+    [self.tableView sendSubviewToBack:imageView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,63 +39,38 @@
 }
 
 
--(IBAction)leftClick:(id)sender
+-(IBAction)backClick:(id)sender
 {
-    [self.viewDeckController toggleLeftView];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
--(IBAction)rightClick:(id)sender
+-(IBAction)OKClick:(id)sender
 {
-    [self.viewDeckController toggleRightView];
+    [self.navigationController popViewControllerAnimated:YES];
 }
-
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 1;
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 2;
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc]init];
+    view.backgroundColor = [UIColor clearColor];
+    return view;
 }
-
-
+/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CenterTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
     
     // Configure the cell...
-    [cell setData:nil];
     
     return cell;
 }
+*/
 
--(void)centerTableViewCellButtonClicked:(NSInteger)index
-{
-    if (index==0) {
-        UIAlertView *aview = [[UIAlertView alloc]initWithTitle:@"\n\n是否取消订单\n\n" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        aview.tag = 111;
-        [aview show];
-    }
-    else
-    {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ConstructionSingle" bundle:nil];
-        UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ConstructionSingleDetail"];
-        [self.viewDeckController.theNavigationController pushViewController:vc animated:YES];
-    }
-}
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag==111) {
-        if (buttonIndex==1) {
-            ;
-        }
-    };
-}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

@@ -15,4 +15,6 @@
 +(void)RoundStyle:(UIView *)view;
 +(void)RoundStyle:(UIView *)view rect:(CGFloat)round;
 +(void)ViewaddGestureRecognizer:(UIView *)view WithTarget:(id)target action:(SEL)action;
++(void)ButtonAttributedTitle:(UIButton *)btn title:(NSString *)str;
++(void)LabelAttributedTitle:(UILabel *)label title:(NSString *)str;
 @end

@@ -9,7 +9,7 @@
 #import "ConstructionSingleViewController.h"
 #import "CenterTableViewCell.h"
 
-@interface ConstructionSingleViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface ConstructionSingleViewController ()<UITableViewDataSource,UITableViewDelegate,centerTableViewCellDelegate>
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
 @property (nonatomic,weak) IBOutlet UISegmentedControl *segmentControl;
 @end
@@ -21,6 +21,10 @@
     // Do any additional setup after loading the view.
     self.tableView.tableFooterView = [UIView new];
     self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    
+    CGRect tableViewHeaderRect = self.tableView.tableHeaderView.frame;
+    tableViewHeaderRect.size.height = 10.0f;
+    [self.tableView.tableHeaderView setFrame:tableViewHeaderRect];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,11 +62,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CenterTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
-    
+    cell.delegate = self;
     // Configure the cell...
     [cell setData:nil];
     
     return cell;
+}
+
+-(void)centerTableViewCellButtonClicked:(NSInteger)index
+{
+    if (index==1) {
+        [self performSegueWithIdentifier:@"ConstructionSingleDetail" sender:nil];
+    }
 }
 /*
 #pragma mark - Navigation

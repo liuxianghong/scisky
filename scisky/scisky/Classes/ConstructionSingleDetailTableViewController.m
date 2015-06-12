@@ -1,20 +1,21 @@
 //
-//  CenterTableViewController.m
+//  ConstructionSingleDetailTableViewController.m
 //  scisky
 //
-//  Created by 刘向宏 on 15/6/9.
+//  Created by 刘向宏 on 15/6/11.
 //  Copyright (c) 2015年 刘向宏. All rights reserved.
 //
 
-#import "CenterTableViewController.h"
-#import "IIViewDeckController.h"
-#import "CenterTableViewCell.h"
+#import "ConstructionSingleDetailTableViewController.h"
 
-@interface CenterTableViewController ()<centerTableViewCellDelegate,UIAlertViewDelegate>
-
+@interface ConstructionSingleDetailTableViewController ()
+@property (nonatomic,weak) IBOutlet UILabel *seeComLabel;
 @end
 
-@implementation CenterTableViewController
+@implementation ConstructionSingleDetailTableViewController
+{
+    UIImageView *imageView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,72 +26,58 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.tableFooterView = [UIView new];
+    CGRect tableViewHeaderRect = self.tableView.tableFooterView.frame;
+    tableViewHeaderRect.size.height = 1.0f;
+    [self.tableView.tableFooterView setFrame:tableViewHeaderRect];
+    imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Order-details-bottom-frame"]];
+    [self.tableView addSubview:imageView];
+    [self.tableView sendSubviewToBack:imageView];
     self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    
+    [SSUIStyle LabelAttributedTitle:self.seeComLabel title:@"疼木科技123445"];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-
--(IBAction)leftClick:(id)sender
+-(void)viewWillAppear:(BOOL)animated
 {
-    [self.viewDeckController toggleLeftView];
+    [super viewWillAppear:animated];
+    imageView.frame =  CGRectMake(10, 10, self.tableView.width-20, self.tableView.contentSize.height-10);//CGRectInset(self.tableView.bounds, 10, 10);
 }
 
--(IBAction)rightClick:(id)sender
+
+-(IBAction)backClick:(id)sender
 {
-    [self.viewDeckController toggleRightView];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(IBAction)seeCompClick:(UISegmentedControl *)sender
+{
+    ;
+}
+
+-(IBAction)doneClick:(UISegmentedControl *)sender
+{
+    ;
 }
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 1;
-}
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 2;
-}
-
-
+/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CenterTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
     
     // Configure the cell...
-    [cell setData:nil];
     
     return cell;
 }
+*/
 
--(void)centerTableViewCellButtonClicked:(NSInteger)index
-{
-    if (index==0) {
-        UIAlertView *aview = [[UIAlertView alloc]initWithTitle:@"\n\n是否取消订单\n\n" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        aview.tag = 111;
-        [aview show];
-    }
-    else
-    {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ConstructionSingle" bundle:nil];
-        UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ConstructionSingleDetail"];
-        [self.viewDeckController.theNavigationController pushViewController:vc animated:YES];
-    }
-}
-
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    if (alertView.tag==111) {
-        if (buttonIndex==1) {
-            ;
-        }
-    };
-}
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

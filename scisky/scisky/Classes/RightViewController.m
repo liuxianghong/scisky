@@ -9,6 +9,7 @@
 #import "RightViewController.h"
 #import "RightTableViewCell.h"
 #import "IIViewDeckController.h"
+#import "MoneyViewController.h"
 
 @interface RightViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,weak) IBOutlet UILabel *nameLabel;
@@ -37,15 +38,23 @@
 }
 
 -(void)ShowConstructionSingle:(UITapGestureRecognizer*)tap{
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ConstructionSingle" bundle:nil];
     UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ConstructionSingleVC"];
     [self.viewDeckController.theNavigationController pushViewController:vc animated:YES];
 }
 
 -(void)ShowbalanceView:(UITapGestureRecognizer*)tap{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    MoneyViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MoneyVC"];
+    vc.type = 1;
+    [self.viewDeckController.theNavigationController pushViewController:vc animated:YES];
 }
 
 -(void)ShowcommissionView:(UITapGestureRecognizer*)tap{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    MoneyViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"MoneyVC"];
+    vc.type = 2;
+    [self.viewDeckController.theNavigationController pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -79,6 +88,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row==0) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"PersonalProfile"];
+        [self.viewDeckController.theNavigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row==1) {
         [self ShowConstructionSingle:nil];
