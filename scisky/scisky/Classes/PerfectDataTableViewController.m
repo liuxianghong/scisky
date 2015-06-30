@@ -7,6 +7,9 @@
 //
 
 #import "PerfectDataTableViewController.h"
+#import "MobileAPI.h"
+#import "SeverChoiceTableViewController.h"
+#import "LocationTableViewController.h"
 
 @interface PerfectDataTableViewController ()
 @property (nonatomic,weak) IBOutlet UITextField *nameTf;
@@ -14,17 +17,34 @@
 @property (nonatomic,weak) IBOutlet UITextField *dateTf;
 @property (nonatomic,weak) IBOutlet UITextField *workeYearTf;
 
+@property (nonatomic,weak) IBOutlet UILabel *location;
+@property (nonatomic,weak) IBOutlet UILabel *serveDistrict;
+@property (nonatomic,weak) IBOutlet UILabel *serviceIds;
+@property (nonatomic,weak) IBOutlet UILabel *workExpIds;
+
 @property (nonatomic,weak) IBOutlet UIButton *sexManBtn;
 @property (nonatomic,weak) IBOutlet UIButton *sexWomanBtn;
 
 @property (nonatomic,weak) IBOutlet UIImageView *imageViewFront;
 @property (nonatomic,weak) IBOutlet UIImageView *imageViewBack;
+
+@property (nonatomic,weak) IBOutlet UIButton *imageFrontBtn;
+@property (nonatomic,weak) IBOutlet UIButton *imageBackBtn;
+
+@property (nonatomic,strong) NSString *forntImageName;
+@property (nonatomic,strong) NSString *backImageName;
 @end
 
 @implementation PerfectDataTableViewController
 {
     UIImageView *imageViewCurrent;
     UIDatePicker *pickerView;
+    
+    NSMutableDictionary *locationDic;
+    NSMutableArray *serveDistrictArray;
+    NSMutableArray *serviceIdsArray;
+    NSMutableArray *workExpIdsArray;
+    
 }
 
 - (void)viewDidLoad {
@@ -49,12 +69,38 @@
     [pickerView setDatePickerMode:UIDatePickerModeDate];
     self.dateTf.inputView = pickerView;
     self.dateTf.inputAccessoryView = topView;
+    
+    locationDic = [[NSMutableDictionary alloc]init];
+    serveDistrictArray = [[NSMutableArray alloc]init];
+    serviceIdsArray = [[NSMutableArray alloc]init];
+    workExpIdsArray = [[NSMutableArray alloc]init];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.tableView reloadData];
+    
+    
+    self.location.text = locationDic[@"cityname"];
+    
+    self.serveDistrict.text = [self getListString:serveDistrictArray byKey:@"name"];
+    self.serviceIds.text = [self getListString:serviceIdsArray byKey:@"name"];
+    self.workExpIds.text = [self getListString:workExpIdsArray byKey:@"name"];
+    
+    //[self.tableView reloadData];
+}
+
+-(NSString *)getListString:(NSArray *)array byKey:(NSString *)key
+{
+    NSString *str = @"";
+    for (int i =0; i<[array count]; i++) {
+        NSDictionary *dic = [array objectAtIndex:i];
+        str = [str stringByAppendingString:dic[key]];
+        if (i!=([array count]-1)) {
+            str = [str stringByAppendingString:@","];
+        }
+    }
+    return str;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,7 +116,7 @@
 -(void)doneChoice
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat: @"yyyy年MM月dd日"];
+    [dateFormatter setDateFormat: @"yyyy-MM-dd"];
     NSString *destDateString = [dateFormatter stringFromDate:pickerView.date];
     self.dateTf.text = destDateString;
     [self.dateTf resignFirstResponder];
@@ -81,8 +127,99 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)showHudToWarming:(NSString *)str
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+    hud.dimBackground = YES;
+    hud.mode = MBProgressHUDModeText;
+    hud.detailsLabelText = str;
+    [hud hide:YES afterDelay:1.5f];
+}
+
 -(IBAction)commitClick:(id)sender
 {
+    [self.nameTf resignFirstResponder];
+    [self.cardNoTf resignFirstResponder];
+    [self.dateTf resignFirstResponder];
+    [self.workeYearTf resignFirstResponder];
+    if ([self.nameTf.text length]<1) {
+        [self showHudToWarming:@"请输入姓名"];
+        return;
+    }
+    if ([self.cardNoTf.text length]<1) {
+        [self showHudToWarming:@"请输入身份证号码"];
+        return;
+    }
+    if ([self.location.text length]<1) {
+        [self showHudToWarming:@"请选择位置"];
+        return;
+    }
+    if ([self.dateTf.text length]<1) {
+        [self showHudToWarming:@"请选择出生日期"];
+        return;
+    }
+    if ([self.serveDistrict.text length]<1) {
+        [self showHudToWarming:@"请选择服务区域"];
+        return;
+    }
+    if ([self.serviceIds.text length]<1) {
+        [self showHudToWarming:@"请选择提供服务"];
+        return;
+    }
+    if ([self.workExpIds.text length]<1) {
+        [self showHudToWarming:@"请选择工作经验"];
+        return;
+    }
+    if ([self.workeYearTf.text length]<1) {
+        [self showHudToWarming:@"请输入工作年限"];
+        return;
+    }
+    if ([self.forntImageName length]<1) {
+        [self showHudToWarming:@"请上传身份证正面"];
+        return;
+    }
+    if ([self.backImageName length]<1) {
+        [self showHudToWarming:@"请上传身份证背面"];
+        return;
+    }
+    NSDictionary *dic = @{
+                          @"loginname" : self.phoneNumber,
+                          @"password" : self.passWord,
+                          @"nickname" : self.nameTf.text,
+                          @"gender" : self.sexManBtn.selected?@"1":@"2",
+                          @"idCardNo" : self.cardNoTf.text,
+                          @"birthday" : self.dateTf.text,
+                          @"location" : locationDic[@"id"],
+                          @"serveDistrict" : [self getListString:serveDistrictArray byKey:@"id"],
+                          @"serviceIds" : [self getListString:serviceIdsArray byKey:@"id"],
+                          @"workExpIds" : [self getListString:workExpIdsArray byKey:@"id"],
+                          @"workLife" : self.workeYearTf.text,
+                          @"workLifeUnit" : @"3",
+                          @"idCardImgFront" : self.forntImageName,
+                          @"idCardImgBack" : self.backImageName
+                          };
+
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+    hud.dimBackground = YES;
+    hud.detailsLabelText = @"注册中";
+    [MobileAPI UserRegisterWithParameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@",responseObject);
+        if ([[responseObject[@"state"] safeString] integerValue]==0) {
+            hud.detailsLabelText = @"注册成功,请耐心等待审核通过";
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+        else
+        {
+            hud.detailsLabelText = @"注册失败";
+        }
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.5f];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@",error);
+        hud.detailsLabelText = error.domain;
+        hud.mode = MBProgressHUDModeText;
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 -(IBAction)sexClick:(UIButton *)sender
@@ -115,6 +252,26 @@
     }
     else
         return 45;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row==3) {
+        [self performSegueWithIdentifier:@"location" sender:nil];
+    }
+    if (indexPath.row==5) {
+        if (locationDic[@"id"]) {
+            [self performSegueWithIdentifier:@"serveDistrict" sender:nil];
+        }
+        else
+        {
+            MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+            hud.detailsLabelText = @"请先选择位置";
+            hud.mode = MBProgressHUDModeText;
+            [hud hide:YES afterDelay:1.5f];
+            
+        }
+    }
 }
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -210,16 +367,80 @@
     UIImage *image2=[info objectForKey:UIImagePickerControllerOriginalImage];
     imageViewCurrent.image = image2;
     [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:imageViewCurrent animated:YES];
+    hud.dimBackground = YES;
+    __block int type = 1;
+    __weak typeof(self) wself = self;
+    if ([imageViewCurrent isEqual:self.imageViewFront]) {
+        self.forntImageName = nil;
+        self.imageFrontBtn.enabled = NO;
+        type = 0;
+    }
+    else
+    {
+        self.backImageName = nil;
+        self.imageBackBtn.enabled = NO;
+    }
+    [MobileAPI UploadImage:image2 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        typeof(self) sself = wself;
+        if([[responseObject[@"state"] safeString] integerValue]==0)
+        {
+            if (type==1) {
+                sself.imageBackBtn.enabled = YES;
+                sself.backImageName = [responseObject[@"data"][@"name"] safeString];
+            }
+            else
+            {
+                sself.imageFrontBtn.enabled = YES;
+                sself.forntImageName = [responseObject[@"data"][@"name"] safeString];
+            }
+            
+        }
+        [hud hide:YES];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        typeof(self) sself = wself;
+        if (type==1) {
+            sself.imageBackBtn.enabled = YES;
+            sself.imageViewBack.image = nil;
+        }
+        else
+        {
+            sself.imageFrontBtn.enabled = YES;
+            sself.imageViewFront.image = nil;
+        }
+        [hud hide:YES];
+    }];
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"location"]) {
+        LocationTableViewController *vc = segue.destinationViewController;
+        vc.dic = locationDic;
+    }
+    if ([segue.identifier isEqualToString:@"serveDistrict"]) {
+        SeverChoiceTableViewController *vc = segue.destinationViewController;
+        vc.type = 1;
+        vc.array = serveDistrictArray;
+        vc.cityID = locationDic[@"id"];
+    }
+    if ([segue.identifier isEqualToString:@"userservice"]) {
+        SeverChoiceTableViewController *vc = segue.destinationViewController;
+        vc.type = 2;
+        vc.array = serviceIdsArray;
+    }
+    if ([segue.identifier isEqualToString:@"WorkExperience"]) {
+        SeverChoiceTableViewController *vc = segue.destinationViewController;
+        vc.type = 3;
+        vc.array = workExpIdsArray;
+    }
 }
-*/
+
 
 @end

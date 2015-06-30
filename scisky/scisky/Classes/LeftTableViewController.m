@@ -8,6 +8,7 @@
 
 #import "LeftTableViewController.h"
 #import "IIViewDeckController.h"
+#import "MobileAPI.h"
 
 @interface LeftTableViewController ()
 
@@ -61,6 +62,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if(indexPath.row==3)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -75,12 +77,24 @@
     }
     else if(indexPath.row==6)
     {
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"]) {
+            NSDictionary *dic = @{
+                                  @"loginname" : [[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"]
+                                  };
+            [MobileAPI UserLogoutPassWordWithParameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                ;
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                ;
+            }];
+        }
         [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"UID"];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
         UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
         [self.viewDeckController.theNavigationController presentViewController:loginVC animated:YES completion:nil];
         [self.viewDeckController closeLeftViewAnimated:YES];
-        
+        NSNotification *notification =[NSNotification notificationWithName:@"logout" object:nil userInfo:nil];
+        //通过通知中心发送通知
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
         
     }
 }

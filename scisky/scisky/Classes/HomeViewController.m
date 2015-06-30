@@ -26,6 +26,7 @@
     self.containerController.rightSize = 50;
     self.containerController.leftSize = 50;
     self.containerController.view.frame = self.view.bounds;
+    self.containerController.shadowEnabled = NO;
     self.containerController.theNavigationController = self.navigationController;
     [self.view addSubview:self.containerController.view];
 }

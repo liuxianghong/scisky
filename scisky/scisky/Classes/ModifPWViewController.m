@@ -7,6 +7,8 @@
 //
 
 #import "ModifPWViewController.h"
+#import "MobileAPI.h"
+#import "MBProgressHUD.h"
 
 @interface ModifPWViewController ()<UITextFieldDelegate>
 @property (nonatomic,weak) IBOutlet UITextField *oldpwTf;
@@ -33,6 +35,61 @@
 
 -(IBAction)commitClick:(id)sender
 {
+    [self.oldpwTf resignFirstResponder];
+    [self.newpwTf resignFirstResponder];
+    [self.reppwTf resignFirstResponder];
+    if(self.oldpwTf.text.length<1||self.newpwTf.text.length<1)
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+        //hud.dimBackground = YES;
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"请输入新旧密码";
+        [hud hide:YES afterDelay:1.5f];
+        return;
+    }
+    if([self.newpwTf.text length]<6)
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+        //hud.dimBackground = YES;
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"密码长度至少6位";
+        [hud hide:YES afterDelay:1.5f];
+        return;
+    }
+    if (![self.newpwTf.text isEqualToString:self.reppwTf.text]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+        //hud.dimBackground = YES;
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"两次密码不一致";
+        [hud hide:YES afterDelay:1.5f];
+        return;
+    }
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+    hud.dimBackground = YES;
+    NSDictionary *dic = @{
+                          @"loginname" : [[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"],
+                          @"oldpwd" : self.oldpwTf.text,
+                          @"newpwd" : self.newpwTf.text
+                          };
+    [MobileAPI UserUpdatePassWordWithParameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@",responseObject);
+        if ([MobileAPI getErrorStringWithState:responseObject[@"state"]]) {
+            hud.mode = MBProgressHUDModeText;
+            hud.detailsLabelText = @"修改失败";
+            [hud hide:YES afterDelay:1.5f];
+        }
+        else
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.detailsLabelText = @"修改成功";
+            [hud hide:YES afterDelay:1.5f];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = error.domain;
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField

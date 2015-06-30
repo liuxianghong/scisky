@@ -9,12 +9,21 @@
 #import "CenterTableViewController.h"
 #import "IIViewDeckController.h"
 #import "CenterTableViewCell.h"
+#import "MJRefresh.h"
+#import "MobileAPI.h"
+#import "ConstructionSingleDetailTableViewController.h"
 
 @interface CenterTableViewController ()<centerTableViewCellDelegate,UIAlertViewDelegate>
 
 @end
 
 @implementation CenterTableViewController
+{
+    BOOL first;
+    NSArray *tableArray;
+    
+    NSDictionary *cancelDic;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,13 +35,54 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.tableFooterView = [UIView new];
     self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:@"logout" object:nil];
+    
+
+    __weak typeof(self) wself = self;
+    [self.tableView addLegendHeaderWithRefreshingBlock:^{
+        typeof(self) sself = wself;
+        [sself refreshData];
+    }];
+    first = YES;
 }
+
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (first) {
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]) {
+            [self.tableView.header beginRefreshing];
+            first = NO;
+        }
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+-(void)refreshData
+{
+    NSString *uid = [[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"] safeString];
+    if (uid) {
+        NSDictionary *dicParameters = @{
+                                        @"supplierId" : uid,
+                                        @"orderStatus" : @1
+                                        };
+        [MobileAPI GetSupplierOrderListWithParameters:dicParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSLog(@"%@",responseObject);
+            tableArray = responseObject[@"data"];
+            [self.tableView.header endRefreshing];
+            [self.tableView reloadData];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [self.tableView.header endRefreshing];
+        }];
+    }
+}
 
 -(IBAction)leftClick:(id)sender
 {
@@ -44,6 +94,10 @@
     [self.viewDeckController toggleRightView];
 }
 
+
+- (void)logout{
+    first = YES;
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -55,7 +109,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 2;
+    return [tableArray count];
 }
 
 
@@ -63,22 +117,24 @@
     CenterTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
     
     // Configure the cell...
-    [cell setData:nil];
+    [cell setData:tableArray[indexPath.row]];
     
     return cell;
 }
 
--(void)centerTableViewCellButtonClicked:(NSInteger)index
+-(void)centerTableViewCell:(CenterTableViewCell *)cell ButtonClicked:(NSInteger)index
 {
     if (index==0) {
         UIAlertView *aview = [[UIAlertView alloc]initWithTitle:@"\n\n是否取消订单\n\n" message:@"" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
         aview.tag = 111;
+        cancelDic = cell.dic;
         [aview show];
     }
     else
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"ConstructionSingle" bundle:nil];
-        UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ConstructionSingleDetail"];
+        ConstructionSingleDetailTableViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"ConstructionSingleDetail"];
+        vc.dic = cell.dic;
         [self.viewDeckController.theNavigationController pushViewController:vc animated:YES];
     }
 }
@@ -87,7 +143,32 @@
 {
     if (alertView.tag==111) {
         if (buttonIndex==1) {
-            ;
+            if (cancelDic) {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+                hud.dimBackground = YES;
+                NSDictionary *dic = @{
+                                      @"supplierId" : [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"],
+                                      @"id" : [cancelDic[@"id"] safeString],
+                                      @"orderStatus" : @3
+                                      };
+                [MobileAPI UpdateOrderWithParameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    if([[responseObject[@"state"] safeString] integerValue]==0)
+                    {
+                        hud.detailsLabelText = @"操作成功";
+                        [self.tableView.header beginRefreshing];
+                    }
+                    else
+                    {
+                        hud.detailsLabelText = @"操作失败";
+                    }
+                    hud.mode = MBProgressHUDModeText;
+                    [hud hide:YES afterDelay:1.5];
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    hud.mode = MBProgressHUDModeText;
+                    hud.detailsLabelText = error.domain;
+                    [hud hide:YES afterDelay:1.5];
+                }];
+            }
         }
     };
 }

@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "IHKeyboardAvoiding.h"
+#import "MobileAPI.h"
 
 @interface LoginViewController ()
 @property (nonatomic,weak) IBOutlet UITextField *textFiledPhone;
@@ -26,10 +27,13 @@
     tapGestureRecognizer.cancelsTouchesInView = YES;
     [self.view addGestureRecognizer:tapGestureRecognizer];
     
-    [self.textFiledPassWord setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    self.textFiledPassWord.tintColor = [UIColor whiteColor];
-    [self.textFiledPhone setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    self.textFiledPhone.tintColor = [UIColor whiteColor];
+//    [self.textFiledPassWord setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+//    self.textFiledPassWord.tintColor = [UIColor whiteColor];
+//    [self.textFiledPhone setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+//    self.textFiledPhone.tintColor = [UIColor whiteColor];
+    
+//    self.textFiledPhone.text = @"18175152488";
+//    self.textFiledPassWord.text = @"111111";
     
 }
 
@@ -61,8 +65,55 @@
 
 -(IBAction)loginClick:(id)sender
 {
-    [[NSUserDefaults standardUserDefaults]setObject:@"123" forKey:@"UID"];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.textFiledPhone resignFirstResponder];
+    [self.textFiledPassWord resignFirstResponder];
+    NSString *loginName = self.textFiledPhone.text;
+    NSString *password = self.textFiledPassWord.text;
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+    hud.dimBackground = YES;
+    
+    if ([loginName length]<11) {
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"请输入正确的手机号码";
+        [hud hide:YES afterDelay:1.5f];
+        return;
+    }
+    if ([password length]<1) {
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"请输入密码";
+        [hud hide:YES afterDelay:1.5f];
+        return;
+    }
+    hud.detailsLabelText = @"登陆中";
+    NSDictionary *dic = @{
+                          @"loginname": loginName,
+                          @"password": password
+                          };
+    [MobileAPI UserLoginWithParameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@",responseObject);
+        if(![MobileAPI getErrorStringWithState:responseObject[@"state"]])
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.detailsLabelText = @"登陆成功";
+            [hud hide:YES];
+            [MobileAPI saveUserImformatin:responseObject[@"data"]];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        else
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.detailsLabelText = @"登陆失败";
+            [hud hide:YES afterDelay:1.5f];
+        }
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = error.domain;
+        [hud hide:YES afterDelay:1.5f];
+    }];
+    //[[NSUserDefaults standardUserDefaults]setObject:@"123" forKey:@"UID"];
+    //[self dismissViewControllerAnimated:YES completion:nil];
 }
 /*
 #pragma mark - Navigation

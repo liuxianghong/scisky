@@ -8,9 +8,14 @@
 
 #import "PersonalProfileViewController.h"
 #import "PersonalProfileTableViewCell.h"
+#import "MobileAPI.h"
+#import "UIImageView+WebCache.h"
 
 @interface PersonalProfileViewController ()
-
+@property (nonatomic,weak) IBOutlet UIImageView *headImageView;
+@property (nonatomic,weak) IBOutlet UILabel *nameLabel;
+@property (nonatomic,weak) IBOutlet UILabel *phoneLabel;
+@property (nonatomic,weak) IBOutlet UITableView *tabelView;
 @end
 
 @implementation PersonalProfileViewController
@@ -22,8 +27,53 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    long time = [[[NSUserDefaults standardUserDefaults] objectForKey:@"birthday"] longLongValue];
+    NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY"];
+    NSString *dataNow = [formatter stringFromDate:[NSDate date]];
+    NSString *databirthday = [formatter stringFromDate:birthday];
+    NSString *string = [NSString stringWithFormat:@"%ld",[dataNow integerValue] - [databirthday integerValue]];
+                                  
     tableViewTitleArray = @[@"年龄",@"位置",@"服务区域",@"提供服务",@"施工经验"];
-    tableViewValueArray = @[@"年龄",@"位置",@"服务区域",@"提供服务",@"施工经验"];
+    tableViewValueArray = @[string,StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"locationDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistriceDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serviceDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"workExpDesc"])];
+    
+    self.nameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"nickname"];
+    self.phoneLabel.text = [NSString stringWithFormat:@"账号：%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"]];
+    NSDictionary *dic = @{
+                          @"id": [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]
+                          };
+    [MobileAPI UserGetUserByIdWithParameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@",responseObject);
+        [MobileAPI saveUserImformatin:responseObject[@"data"]];
+        [MobileAPI saveUserImformatin2:responseObject[@"data"]];
+        long time = [[[NSUserDefaults standardUserDefaults] objectForKey:@"birthday"] longLongValue];
+        NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"YYYY"];
+        NSString *dataNow = [formatter stringFromDate:[NSDate date]];
+        NSString *databirthday = [formatter stringFromDate:birthday];
+        NSString *string = [NSString stringWithFormat:@"%ld",[dataNow integerValue] - [databirthday integerValue]];
+        tableViewValueArray = @[string,StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"locationDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistriceDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serviceDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"workExpDesc"])];
+        [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Personal-Center-Avatar.png"]];
+        [self.tabelView reloadData];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        ;
+    }];
+    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Personal-Center-Avatar.png"]];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [SSUIStyle RoundStyle:self.headImageView];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [SSUIStyle RoundStyle:self.headImageView];
 }
 
 - (void)didReceiveMemoryWarning {

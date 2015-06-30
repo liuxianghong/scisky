@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class CenterTableViewCell;
 @protocol centerTableViewCellDelegate<NSObject>
--(void)centerTableViewCellButtonClicked:(NSInteger)index;
+-(void)centerTableViewCell:(CenterTableViewCell *)cell ButtonClicked:(NSInteger)index;
 @end
 
 
@@ -26,6 +27,8 @@
 
 @property (nonatomic,weak) IBOutlet UIButton *buttonCancel;
 @property (nonatomic,weak) IBOutlet UIButton *buttonSee;
+
+@property (nonatomic,strong) NSDictionary *dic;
 
 @property (nonatomic,weak) IBOutlet id<centerTableViewCellDelegate> delegate;
 

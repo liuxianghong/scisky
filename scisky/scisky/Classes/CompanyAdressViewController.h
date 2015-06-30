@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CompanyAdressViewController : UIViewController
-
+@property (nonatomic,strong) NSString *longitude;
+@property (nonatomic,strong) NSString *latitude;
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "FeedBackTableViewController.h"
+#import "MobileAPI.h"
 
 @interface FeedBackTableViewController ()
 @property (nonatomic,weak) IBOutlet UILabel *uilabel;
@@ -63,7 +64,58 @@
 
 -(IBAction)commitButtonClick:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.nameTextFiled resignFirstResponder];
+    [self.phoneTextFiled resignFirstResponder];
+    [self.feedTextView resignFirstResponder];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+    hud.dimBackground = YES;
+    
+    if ([self.nameTextFiled.text length]<1) {
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"请输入姓名";
+        [hud hide:YES afterDelay:1.5f];
+        return;
+    }
+    if ([self.phoneTextFiled.text length]<11) {
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"请输入正确的手机号码";
+        [hud hide:YES afterDelay:1.5f];
+        return;
+    }
+    if ([self.feedTextView.text length]<1) {
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"请输入反馈内容";
+        [hud hide:YES afterDelay:1.5f];
+        return;
+    }
+    hud.detailsLabelText = @"提交中";
+    NSDictionary *dicParameters = @{
+                                    @"supplierId" : [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"],
+                                    @"name" : self.nameTextFiled.text,
+                                    @"phone" : self.phoneTextFiled.text,
+                                    @"content" : self.feedTextView.text
+                                    };
+    [MobileAPI AddFeedBackWithParameters:dicParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if(![MobileAPI getErrorStringWithState:responseObject[@"state"]])
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.detailsLabelText = @"提交成功";
+            [hud hide:YES afterDelay:1.5f];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.detailsLabelText = @"提交失败";
+            [hud hide:YES afterDelay:1.5f];
+        }
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = error.domain;
+        [hud hide:YES afterDelay:1.5f];
+    }];
 }
 
 #pragma mark - Table view data source

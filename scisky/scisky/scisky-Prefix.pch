@@ -19,4 +19,4 @@
 #import "JSONKit.h"
 #import "MBProgressHUD.h"
 #import "SSUIStyle.h"
-
+#import "NSString+scisky.h"

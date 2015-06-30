@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CompanyViewController : UIViewController
-
+@property (nonatomic,strong) NSString *compId;
+@property (nonatomic,strong) NSString *compName;
 @end

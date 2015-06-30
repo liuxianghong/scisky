@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #define StringNoNill(a) a?a:@""
-#define StringNoNull(a) [a length]>1?a:@" "
+#define StringNoNull(a) [a length]>0?a:@" "
 
 @interface SSUIStyle : NSObject
 +(void)RoundStyle:(UIView *)view;

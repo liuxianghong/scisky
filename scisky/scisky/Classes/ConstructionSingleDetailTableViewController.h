@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ConstructionSingleDetailTableViewController : UITableViewController
-
+@property (nonatomic,strong) NSDictionary *dic;
 @end

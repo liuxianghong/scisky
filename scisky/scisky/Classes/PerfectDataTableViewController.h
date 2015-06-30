@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface PerfectDataTableViewController : UITableViewController
-
+@property (nonatomic,strong) NSString *phoneNumber;
+@property (nonatomic,strong) NSString *passWord;
 @end

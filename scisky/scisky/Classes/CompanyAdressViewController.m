@@ -19,10 +19,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.title = @"地址";
     CLLocationCoordinate2D coordinate;
-    coordinate.latitude = 28;
-    coordinate.longitude = 113;
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(coordinate, 3000, 3000);
+    coordinate.latitude = [self.latitude doubleValue];
+    coordinate.longitude = [self.longitude doubleValue];
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(coordinate, 2000, 2000);
     MKCoordinateRegion adjustedRegion = [self.mapView regionThatFits:viewRegion];
     [self.mapView setRegion:adjustedRegion animated:YES];
     BasicMapAnnotation *  annotation=[[BasicMapAnnotation alloc] initWithLatitude:coordinate.latitude andLongitude:coordinate.longitude] ;
