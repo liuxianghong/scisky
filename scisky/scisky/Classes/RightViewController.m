@@ -26,6 +26,8 @@
 @property (nonatomic,weak) IBOutlet UIView *balanceView;
 @property (nonatomic,weak) IBOutlet UIView *commissionView;
 
+@property (nonatomic,weak) IBOutlet UILabel *userIdLabel;
+
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
 @end
 
@@ -56,7 +58,8 @@
     [super viewWillAppear:animated];
     self.nameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"nickname"];
     self.phoneLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"];
-    [self.headImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Personal-Center-Avatar.png"]];
+    self.userIdLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"];
+    [self.headImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Modify-data-Avatar"]];
     
     [SSUIStyle RoundStyle:self.headImage];
     

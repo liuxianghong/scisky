@@ -56,12 +56,12 @@
         NSString *databirthday = [formatter stringFromDate:birthday];
         NSString *string = [NSString stringWithFormat:@"%ld",[dataNow integerValue] - [databirthday integerValue]];
         tableViewValueArray = @[string,StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"locationDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistriceDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serviceDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"workExpDesc"])];
-        [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Personal-Center-Avatar.png"]];
+        [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Modify-data-Avatar"]];
         [self.tabelView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         ;
     }];
-    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Personal-Center-Avatar.png"]];
+    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Modify-data-Avatar"]];
 }
 
 -(void)viewWillAppear:(BOOL)animated

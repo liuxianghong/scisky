@@ -103,7 +103,7 @@
 
 -(IBAction)sendClick:(id)sender
 {
-    if ([self.phoneTf.text length]<11) {
+    if (![self.phoneTf.text checkTel]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
         hud.dimBackground = YES;
         hud.mode = MBProgressHUDModeText;
@@ -157,7 +157,7 @@
     [self.pwTf resignFirstResponder];
     [self.rePwTf resignFirstResponder];
     
-    if ([self.phoneTf.text length]<11) {
+    if (![self.phoneTf.text checkTel]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
         hud.dimBackground = YES;
         hud.mode = MBProgressHUDModeText;

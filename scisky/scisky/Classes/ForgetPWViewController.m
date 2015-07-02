@@ -37,6 +37,8 @@
 -(void)keyboardHide:(UITapGestureRecognizer*)tap{
     [self.phoneTextField resignFirstResponder];
     [self.codeTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
+    [self.repasswordTextField resignFirstResponder];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -95,7 +97,7 @@
 
 -(IBAction)sendClick:(id)sender
 {
-    if ([self.phoneTextField.text length]<11) {
+    if (![self.phoneTextField.text checkTel]) {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
         hud.dimBackground = YES;
         hud.mode = MBProgressHUDModeText;
@@ -156,7 +158,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
     hud.dimBackground = YES;
     
-    if ([self.phoneTextField.text length]<11) {
+    if (![self.phoneTextField.text checkTel]) {
         hud.mode = MBProgressHUDModeText;
         hud.detailsLabelText = @"请输入正确的手机号码";
         [hud hide:YES afterDelay:1.5f];
@@ -194,7 +196,7 @@
     hud.detailsLabelText = @"登陆中";
     NSDictionary *dicParameters = @{
                                     @"loginname" : self.phoneTextField.text,
-                                    @"password" : self.codeTextField.text
+                                    @"password" : self.passwordTextField.text
                                     };
     [MobileAPI CodeChangePasswordWithParameters:dicParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if(![MobileAPI getErrorStringWithState:responseObject[@"state"]])

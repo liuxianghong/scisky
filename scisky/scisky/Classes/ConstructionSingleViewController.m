@@ -136,10 +136,10 @@
     return 0;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 241;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return 241;
+//}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CenterTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
@@ -158,6 +158,32 @@
     [cell setData:dic];
     
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //    UILabel *label = [[UILabel alloc]init];
+    //    label.translatesAutoresizingMaskIntoConstraints = NO;
+    //    CGSize size = [StringNoNull([tableArray[indexPath.row][@"serviceContent"] safeString]) calculateSize:CGSizeMake(label.width-23-119, FLT_MAX) font:label.font];
+    //    CGFloat height = 51+11+size.height;
+    
+    CenterTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier"];
+    cell.translatesAutoresizingMaskIntoConstraints = NO;
+    cell.labelContent.translatesAutoresizingMaskIntoConstraints = NO;
+    NSDictionary *dic = nil;
+    if (type==1) {
+        dic = type1Array[indexPath.row];
+    }
+    else if(type==2) {
+        dic = type2Array[indexPath.row];
+    }
+    else {
+        dic = type3Array[indexPath.row];
+    }
+    cell.labelContent.text = StringNoNull([dic[@"serviceContent"] safeString]);
+    NSString *str = cell.labelContent.text;
+    CGSize size = [str calculateSize:CGSizeMake(self.view.width-66-23, FLT_MAX) font:cell.labelContent.font];
+    return size.height+138+86;
 }
 
 -(void)centerTableViewCell:(CenterTableViewCell *)cell ButtonClicked:(NSInteger)index

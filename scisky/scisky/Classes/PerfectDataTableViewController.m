@@ -150,6 +150,10 @@
         [self showHudToWarming:@"请输入身份证号码"];
         return;
     }
+    if (![NSString validateIDCardNumber:self.cardNoTf.text]) {
+        [self showHudToWarming:@"请输入正确的身份证号码"];
+        return;
+    }
     if ([self.location.text length]<1) {
         [self showHudToWarming:@"请选择位置"];
         return;

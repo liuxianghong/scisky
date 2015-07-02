@@ -349,6 +349,10 @@
 		D371DA8E1B4154130038DB57 /* LeftTableTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D371DA8D1B4154130038DB57 /* LeftTableTableViewCell.m */; };
 		D371DA901B417B510038DB57 /* Icon-Balance-switch_right@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D371DA8F1B417B510038DB57 /* Icon-Balance-switch_right@2x.png */; };
 		D37F8F6D1B32806000380643 /* NSString+scisky.m in Sources */ = {isa = PBXBuildFile; fileRef = D37F8F6C1B32806000380643 /* NSString+scisky.m */; };
+		D3A8D78E1B43D2F9004A053C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3A8D78B1B43D2F9004A053C /* Default-568h@2x.png */; };
+		D3A8D78F1B43D2F9004A053C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D3A8D78C1B43D2F9004A053C /* Default.png */; };
+		D3A8D7901B43D2F9004A053C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3A8D78D1B43D2F9004A053C /* Default@2x.png */; };
+		D3A8D7971B4525E3004A053C /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7961B4525E3004A053C /* NetworkExtension.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -887,6 +891,11 @@
 		D371DA8F1B417B510038DB57 /* Icon-Balance-switch_right@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Balance-switch_right@2x.png"; sourceTree = "<group>"; };
 		D37F8F6B1B32806000380643 /* NSString+scisky.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+scisky.h"; sourceTree = "<group>"; };
 		D37F8F6C1B32806000380643 /* NSString+scisky.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+scisky.m"; sourceTree = "<group>"; };
+		D3A8D78B1B43D2F9004A053C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		D3A8D78C1B43D2F9004A053C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		D3A8D78D1B43D2F9004A053C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		D3A8D7931B440774004A053C /* scisky.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = scisky.entitlements; sourceTree = "<group>"; };
+		D3A8D7961B4525E3004A053C /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -895,6 +904,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D332B7301B29CFC600041999 /* MapKit.framework in Frameworks */,
+				D3A8D7971B4525E3004A053C /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -937,6 +947,7 @@
 		D332B5071B26A6E600041999 /* scisky */ = {
 			isa = PBXGroup;
 			children = (
+				D3A8D7931B440774004A053C /* scisky.entitlements */,
 				D332B71D1B29708E00041999 /* NetWorke */,
 				D332B5991B26A9A300041999 /* Classes */,
 				D332B50C1B26A6E600041999 /* AppDelegate.h */,
@@ -1108,6 +1119,9 @@
 		D332B5961B26A98F00041999 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				D3A8D78B1B43D2F9004A053C /* Default-568h@2x.png */,
+				D3A8D78C1B43D2F9004A053C /* Default.png */,
+				D3A8D78D1B43D2F9004A053C /* Default@2x.png */,
 				D332B5A91B26D7B900041999 /* Images */,
 			);
 			name = Resource;
@@ -1395,6 +1409,7 @@
 		D332B7311B29CFCD00041999 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D3A8D7961B4525E3004A053C /* NetworkExtension.framework */,
 				D332B72F1B29CFC600041999 /* MapKit.framework */,
 			);
 			name = Frameworks;
@@ -1754,7 +1769,12 @@
 				TargetAttributes = {
 					D332B5041B26A6E600041999 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = F44XSCNJGN;
+						DevelopmentTeam = N4Q8DG7HD5;
+						SystemCapabilities = {
+							com.apple.VPNLite = {
+								enabled = 1;
+							};
+						};
 					};
 					D332B51D1B26A6E600041999 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -1791,6 +1811,7 @@
 				D332B6591B26D7BA00041999 /* Button-order-details-Click@3x.png in Resources */,
 				D332B6511B26D7BA00041999 /* Button-Home-Click@3x.png in Resources */,
 				D332B64E1B26D7BA00041999 /* Button-feedback-normal@2x.png in Resources */,
+				D3A8D78E1B43D2F9004A053C /* Default-568h@2x.png in Resources */,
 				D332B6931B26D7BA00041999 /* Icon-Home-single-time@3x.png in Resources */,
 				D332B6791B26D7BA00041999 /* Icon-Balance@2x.png in Resources */,
 				D332B6631B26D7BA00041999 /* Button-perfect-data-gender-normal@x.png in Resources */,
@@ -1922,6 +1943,7 @@
 				D332B6CE1B26D7BA00041999 /* Order-details-bottom-frame@2x.png in Resources */,
 				D332B6C51B26D7BA00041999 /* Modify-data-Avatar@2x.png in Resources */,
 				D332B6771B26D7BA00041999 /* Icon-Balance-switch@3x.png in Resources */,
+				D3A8D78F1B43D2F9004A053C /* Default.png in Resources */,
 				D332B6BB1B26D7BA00041999 /* Icon-setting-arrow@x.png in Resources */,
 				D332B69D1B26D7BA00041999 /* Icon-login-phone-user@x.png in Resources */,
 				D332B6651B26D7BA00041999 /* Button-setting-Click@3x.png in Resources */,
@@ -1946,6 +1968,7 @@
 				D332B65D1B26D7BA00041999 /* Button-order-details-normal@x.png in Resources */,
 				D332B6C21B26D7BA00041999 /* Individual-center-background@2x.png in Resources */,
 				D332B6BD1B26D7BA00041999 /* Icon-vendor-address-location@3x.png in Resources */,
+				D3A8D7901B43D2F9004A053C /* Default@2x.png in Resources */,
 				D332B6B51B26D7BA00041999 /* Icon-perfect-data-Selection@x.png in Resources */,
 				D332B6C11B26D7BA00041999 /* Icon-vendor-Address@x.png in Resources */,
 				D332B6611B26D7BA00041999 /* Button-perfect-data-gender-normal@2x.png in Resources */,
@@ -2271,6 +2294,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = scisky/scisky.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
@@ -2279,7 +2303,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ba3db7b6-4194-488b-a864-aef9873b3f74";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -2288,6 +2312,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = scisky/scisky.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
@@ -2296,7 +2321,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ba3db7b6-4194-488b-a864-aef9873b3f74";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

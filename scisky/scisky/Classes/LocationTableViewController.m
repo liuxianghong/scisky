@@ -22,6 +22,9 @@
 @implementation LocationTableViewController
 {
     NSDictionary *locationCityDic;
+    NSString *locationCityName;
+    
+    
     NSDictionary *citydic;
     BOOL first;
     NSArray *tableArray;
@@ -89,6 +92,7 @@
                 }
             }
         }
+        [self updateLocationLabel];
         [self.tableView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self.tableView.header endRefreshing];
@@ -139,11 +143,28 @@
         [manager startUpdatingLocation];
         
     }else if(status == kCLAuthorizationStatusDenied){
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您没有授权费医生使用您的位置" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您没有授权水性科天使用您的位置" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
     }
 }
 
+
+-(void)updateLocationLabel
+{
+    if (locationCityName) {
+        self.cityLabel.text = locationCityName;
+        self.cityLabel.textColor = [UIColor redColor];
+        for (NSDictionary *dic in tableArray) {
+            for (NSDictionary *dicCity in dic[@"children"]) {
+                if ([locationCityName rangeOfString:[dicCity[@"cityname"] safeString]].location!=NSNotFound) {
+                    locationCityDic = dicCity;
+                    self.cityLabel.textColor = [UIColor darkTextColor];
+                    break;
+                }
+            }
+        }
+    }
+}
 //定位代理经纬度回调
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
@@ -165,19 +186,12 @@
             //             self.location.text = placemark.name;
             //获取城市
             NSString *city = placemark.locality;
-            if (!city) {
+            if ([city length]<1) {
                 //四大直辖市的城市信息无法通过locality获得，只能通过获取省份的方法来获得（如果city为空，则可知为直辖市）
                 city = placemark.administrativeArea;
             }
-            self.cityLabel.text = city;
-            for (NSDictionary *dic in tableArray) {
-                for (NSDictionary *dicCity in dic[@"children"]) {
-                    if ([city rangeOfString:[dicCity[@"cityname"] safeString]].location!=NSNotFound) {
-                        locationCityDic = dicCity;
-                        break;
-                    }
-                }
-            }
+            locationCityName = city;
+            [self updateLocationLabel];
             
         }
         else if (error == nil && [array count] == 0)

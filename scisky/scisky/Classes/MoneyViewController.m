@@ -35,6 +35,7 @@
     long nmonth;
     long nowYear;
     long nowMonth;
+    long nowDay;
 }
 
 - (void)viewDidLoad {
@@ -55,7 +56,7 @@
     NSInteger unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;//这句我也不明白具体时用来做什么。。。
     comps = [calendar components:unitFlags fromDate:[NSDate date]];
     //long weekNumber = [comps weekday]; //获取星期对应的长整形字符串
-    //nday=[comps day];//获取日期对应的长整形字符串
+    nowDay =[comps day];//获取日期对应的长整形字符串
     nowYear = nyear = [comps year];//获取年对应的长整形字符串
     nowMonth = nmonth = [comps month];//获取月对应的长整形字符串
     
@@ -137,7 +138,8 @@
 -(void)upDateUI
 {
     if (self.type==2) {
-        self.labelTime.text = [NSString stringWithFormat:@"%ld年%02ld月账单",nyear,nmonth] ;
+        self.labelTime.text = [NSString stringWithFormat:@"%ld年%02ld月账单（%ld.1－%ld.%ld）",nyear,nmonth,nmonth,nmonth,[self getDayCountByMounth:nyear mounth:nmonth]] ;
+        //self.labelTime.text = [NSString stringWithFormat:@"%ld年%02ld月账单",nyear,nmonth] ;
         self.labelNoPaid.text = [NSString stringWithFormat:@"¥%.2f",(paidMoney+balance-sum)];
         self.labelPaid.text = [NSString stringWithFormat:@"¥%.2f",paidMoney];
         self.labelPaidMun.text = [NSString stringWithFormat:@"%ld项",[tableViewArray count]];
@@ -145,7 +147,8 @@
     }
     else
     {
-        self.labelTime.text = [NSString stringWithFormat:@"%ld年%02ld月账单",nyear,nmonth] ;
+        
+        self.labelTime.text = [NSString stringWithFormat:@"%ld年%02ld月账单（%ld.1－%ld.%ld）",nyear,nmonth,nmonth,nmonth,[self getDayCountByMounth:nyear mounth:nmonth]] ;
         self.labelNoPaid.text = [NSString stringWithFormat:@"¥%.2f",moeny];
         self.labelPaid.text = [NSString stringWithFormat:@"¥%.2f",paidMoney];
         self.labelPaidMun.text = [NSString stringWithFormat:@"%ld项",[tableViewArray count]];
@@ -180,6 +183,31 @@
         nmonth ++;
     }
     [self loadData];
+}
+
+-(NSInteger)getDayCountByMounth:(NSInteger )year mounth:(NSInteger)ounth
+{
+    if (year == nowYear && ounth == nowMonth) {
+        return nowDay;
+    }
+    if (ounth==4||ounth==6||ounth==9||ounth==11) {
+        return 30;
+    }
+    else if(ounth!=2)
+    {
+        return 31;
+    }
+    else
+    {
+        if (ounth%100==0&&ounth%400==0) {
+            return 29;
+        }
+        else if(ounth%100!=0&&ounth%4==0)
+        {
+            return 29;
+        }
+        else return 28;
+    }
 }
 
 -(IBAction)backClick:(id)sender

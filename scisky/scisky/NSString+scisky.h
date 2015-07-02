@@ -12,6 +12,9 @@
 + (NSString *)decodeFromPercentEscapeString: (NSString *) input;
 -(NSString *)AESEncrypt;
 -(NSString *)safeString;
+- (BOOL)checkTel;
+- (CGSize)calculateSize:(CGSize)size font:(UIFont *)font;
++ (BOOL)validateIDCardNumber:(NSString *)value;
 @end
 
 @interface NSData (scisky)

@@ -72,7 +72,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
     hud.dimBackground = YES;
     
-    if ([loginName length]<11) {
+    if (![loginName checkTel]) {
         hud.mode = MBProgressHUDModeText;
         hud.detailsLabelText = @"请输入正确的手机号码";
         [hud hide:YES afterDelay:1.5f];
@@ -99,10 +99,25 @@
             [MobileAPI saveUserImformatin:responseObject[@"data"]];
             [self dismissViewControllerAnimated:YES completion:nil];
         }
+        else if([responseObject[@"state"] integerValue]==1)
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"提示";
+            hud.detailsLabelText = @"密码错误，请重新输入";
+            [hud hide:YES afterDelay:1.5f];
+        }
+        else if([responseObject[@"state"] integerValue]==2)
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"提示";
+            hud.detailsLabelText = @"用户名错误，请重新输入";
+            [hud hide:YES afterDelay:1.5f];
+        }
         else
         {
             hud.mode = MBProgressHUDModeText;
-            hud.detailsLabelText = @"登陆失败";
+            hud.labelText = @"提示";
+            hud.detailsLabelText = @"未知错误";
             [hud hide:YES afterDelay:1.5f];
         }
         

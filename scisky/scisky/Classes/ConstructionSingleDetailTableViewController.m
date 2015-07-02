@@ -120,6 +120,7 @@
 {
     [super viewWillAppear:animated];
     imageView.frame =  CGRectMake(10, 10, self.tableView.width-20, self.tableView.contentSize.height-10);//CGRectInset(self.tableView.bounds, 10, 10);
+    [self.tableView reloadData];
 }
 
 
@@ -191,6 +192,35 @@
 }
 #pragma mark - Table view data source
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row==0) {
+        return 115;
+    }
+    else if(indexPath.row==1)
+    {
+        self.serviceContentLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        CGSize size = [self.serviceContentLabel.text calculateSize:CGSizeMake(self.view.width-23-119, FLT_MAX) font:self.serviceContentLabel.font];
+        CGFloat height = 51+11+size.height;
+        return height>79?height:79;
+    }
+    else if(indexPath.row==2)
+    {
+        return 82;
+    }
+    else if(indexPath.row==3)
+    {
+        self.remarkLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        CGSize size = [self.remarkLabel.text calculateSize:CGSizeMake(self.view.width-38-38, FLT_MAX) font:self.remarkLabel.font];
+        CGFloat height = 20+20+size.height;
+        return height;
+    }
+    else if(indexPath.row==4)
+    {
+        return 61;
+    }
+    return 40;
+}
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

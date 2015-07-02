@@ -122,6 +122,22 @@
     return cell;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+//    UILabel *label = [[UILabel alloc]init];
+//    label.translatesAutoresizingMaskIntoConstraints = NO;
+//    CGSize size = [StringNoNull([tableArray[indexPath.row][@"serviceContent"] safeString]) calculateSize:CGSizeMake(label.width-23-119, FLT_MAX) font:label.font];
+//    CGFloat height = 51+11+size.height;
+    
+    CenterTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier"];
+    cell.translatesAutoresizingMaskIntoConstraints = NO;
+    cell.labelContent.translatesAutoresizingMaskIntoConstraints = NO;
+    cell.labelContent.text = StringNoNull([tableArray[indexPath.row][@"serviceContent"] safeString]);
+    NSString *str = cell.labelContent.text;
+    CGSize size = [str calculateSize:CGSizeMake(self.view.width-66-23, FLT_MAX) font:cell.labelContent.font];
+    return size.height+138+86;
+}
+
 -(void)centerTableViewCell:(CenterTableViewCell *)cell ButtonClicked:(NSInteger)index
 {
     if (index==0) {
