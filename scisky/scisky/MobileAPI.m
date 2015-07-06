@@ -56,6 +56,7 @@
     [[NSUserDefaults standardUserDefaults]setObject:[responseObject[@"workExpIds"] safeString] forKey:@"workExpIds"];
     [[NSUserDefaults standardUserDefaults]setObject:[responseObject[@"workLife"] safeString] forKey:@"workLife"];
     [[NSUserDefaults standardUserDefaults]setObject:[responseObject[@"workLifeUnit"] safeString] forKey:@"workLifeUnit"];
+    [[NSUserDefaults standardUserDefaults]setObject:[responseObject[@"serviceCode"] safeString] forKey:@"serviceCode"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

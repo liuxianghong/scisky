@@ -9,8 +9,9 @@
 #import "LeftTableViewController.h"
 #import "IIViewDeckController.h"
 #import "MobileAPI.h"
+#import "UserManage.h"
 
-@interface LeftTableViewController ()
+@interface LeftTableViewController ()<UIAlertViewDelegate>
 
 @end
 
@@ -63,7 +64,22 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if(indexPath.row==3)
+    if (indexPath.row==0) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"b2bapp"];
+        [self.viewDeckController.theNavigationController pushViewController:loginVC animated:YES];
+        
+    }
+    else if (indexPath.row==1) {
+        ;
+    }
+    else if (indexPath.row==2) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"ketianxieyi"];
+        [self.viewDeckController.theNavigationController pushViewController:loginVC animated:YES];
+        
+    }
+    else if(indexPath.row==3)
     {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"FeedBackVC"];
@@ -77,6 +93,15 @@
     }
     else if(indexPath.row==6)
     {
+        UIAlertView *aview = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否退出登录" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        [aview show];
+    }
+}
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"]) {
             NSDictionary *dic = @{
                                   @"loginname" : [[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"]
@@ -88,6 +113,7 @@
             }];
         }
         [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"UID"];
+        [UserManage sharedManager].decs = nil;
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
         UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
         [self.viewDeckController.theNavigationController presentViewController:loginVC animated:YES completion:nil];
@@ -95,7 +121,6 @@
         NSNotification *notification =[NSNotification notificationWithName:@"logout" object:nil userInfo:nil];
         //通过通知中心发送通知
         [[NSNotificationCenter defaultCenter] postNotification:notification];
-        
     }
 }
 //- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

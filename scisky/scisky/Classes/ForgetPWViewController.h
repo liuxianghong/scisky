@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ForgetPWViewController : UIViewController
+@interface ForgetPWViewController : UITableViewController
 
 @end

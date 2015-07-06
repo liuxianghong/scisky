@@ -45,6 +45,17 @@
         [sself refreshData];
     }];
     first = YES;
+
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
+    tapGestureRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+    
+}
+
+-(void)keyboardHide:(UITapGestureRecognizer*)tap{
+    [self.viewDeckController closeLeftViewAnimated:YES];
+    [self.viewDeckController closeRightViewAnimated:YES];
 }
 
 

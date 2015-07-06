@@ -74,6 +74,17 @@
     serveDistrictArray = [[NSMutableArray alloc]init];
     serviceIdsArray = [[NSMutableArray alloc]init];
     workExpIdsArray = [[NSMutableArray alloc]init];
+
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
+    tapGestureRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+    
+}
+
+-(void)keyboardHide:(UITapGestureRecognizer*)tap{
+    [self.nameTf resignFirstResponder];
+    [self.cardNoTf resignFirstResponder];
+    [self.workeYearTf resignFirstResponder];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -83,22 +94,28 @@
     
     self.location.text = locationDic[@"cityname"];
     
-    self.serveDistrict.text = [self getListString:serveDistrictArray byKey:@"name"];
-    self.serviceIds.text = [self getListString:serviceIdsArray byKey:@"name"];
-    self.workExpIds.text = [self getListString:workExpIdsArray byKey:@"name"];
+    self.serveDistrict.text = [self getListString:serveDistrictArray byKey:@"name" count:2];
+    self.serviceIds.text = [self getListString:serviceIdsArray byKey:@"name" count:2];
+    self.workExpIds.text = [self getListString:workExpIdsArray byKey:@"name" count:2];
     
     //[self.tableView reloadData];
 }
 
--(NSString *)getListString:(NSArray *)array byKey:(NSString *)key
+-(NSString *)getListString:(NSArray *)array byKey:(NSString *)key count:(NSInteger)count
 {
     NSString *str = @"";
     for (int i =0; i<[array count]; i++) {
         NSDictionary *dic = [array objectAtIndex:i];
         str = [str stringByAppendingString:dic[key]];
         if (i!=([array count]-1)) {
-            str = [str stringByAppendingString:@","];
+            if (count&&count==i) {
+                str = [str stringByAppendingString:[NSString stringWithFormat:@"等%ld个",[array count]]];
+                break;
+            }
+            else
+                str = [str stringByAppendingString:@","];
         }
+        
     }
     return str;
 }
@@ -194,9 +211,9 @@
                           @"idCardNo" : self.cardNoTf.text,
                           @"birthday" : self.dateTf.text,
                           @"location" : locationDic[@"id"],
-                          @"serveDistrict" : [self getListString:serveDistrictArray byKey:@"id"],
-                          @"serviceIds" : [self getListString:serviceIdsArray byKey:@"id"],
-                          @"workExpIds" : [self getListString:workExpIdsArray byKey:@"id"],
+                          @"serveDistrict" : [self getListString:serveDistrictArray byKey:@"id" count:0],
+                          @"serviceIds" : [self getListString:serviceIdsArray byKey:@"id" count:0],
+                          @"workExpIds" : [self getListString:workExpIdsArray byKey:@"id" count:0],
                           @"workLife" : self.workeYearTf.text,
                           @"workLifeUnit" : @"3",
                           @"idCardImgFront" : self.forntImageName,
@@ -279,7 +296,7 @@
 }
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
     
     // Configure the cell...
     

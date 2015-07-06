@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "IHKeyboardAvoiding.h"
 #import "MobileAPI.h"
+#import "UserManage.h"
 
 @interface LoginViewController ()
 @property (nonatomic,weak) IBOutlet UITextField *textFiledPhone;
@@ -85,9 +86,12 @@
         return;
     }
     hud.detailsLabelText = @"登陆中";
+    NSString *deviceToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"];
     NSDictionary *dic = @{
                           @"loginname": loginName,
-                          @"password": password
+                          @"password": password,
+                          @"deviceType" : @1,
+                          @"deviceToken" : deviceToken?deviceToken:@" "
                           };
     [MobileAPI UserLoginWithParameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);

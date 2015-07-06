@@ -11,6 +11,7 @@
 #import "SeverChoiceTableViewController.h"
 #import "MobileAPI.h"
 #import "UIImageView+WebCache.h"
+#import "UserManage.h"
 
 @interface PersonalDetailTableViewController ()
 @property (nonatomic,weak) IBOutlet UIImageView *headImageView;
@@ -136,23 +137,28 @@
     
     if (!first) {
         self.locationLabel.text = locationDic[@"cityname"];
-        self.serveDistrictLabel.text = [self getListString:serveDistrictArray byKey:@"name"];
-        self.serviceIdsLabel.text = [self getListString:serviceIdsArray byKey:@"name"];
-        self.workExpIdsLabel.text = [self getListString:workExpIdsArray byKey:@"name"];
+        self.serveDistrictLabel.text = [self getListString:serveDistrictArray byKey:@"name" count:2];
+        self.serviceIdsLabel.text = [self getListString:serviceIdsArray byKey:@"name" count:2];
+        self.workExpIdsLabel.text = [self getListString:workExpIdsArray byKey:@"name" count:2];
     }
     
     
     //[self.tableView reloadData];
 }
 
--(NSString *)getListString:(NSArray *)array byKey:(NSString *)key
+-(NSString *)getListString:(NSArray *)array byKey:(NSString *)key count:(NSInteger)count
 {
     NSString *str = @"";
     for (int i =0; i<[array count]; i++) {
         NSDictionary *dic = [array objectAtIndex:i];
         str = [str stringByAppendingString:dic[key]];
         if (i!=([array count]-1)) {
-            str = [str stringByAppendingString:@","];
+            if (count&&count==i) {
+                str = [str stringByAppendingString:[NSString stringWithFormat:@"等%ld个",[array count]]];
+                break;
+            }
+            else
+                str = [str stringByAppendingString:@","];
         }
     }
     return str;
@@ -227,13 +233,14 @@
                           @"nickname": self.nameTextField.text,
                           @"headimage": self.headImageName,
                           @"location": locationDic[@"id"],
-                          @"serve_district": [self getListString:serveDistrictArray byKey:@"id"],
-                          @"service_ids": [self getListString:serviceIdsArray byKey:@"id"],
-                          @"work_experience_ids": [self getListString:workExpIdsArray byKey:@"id"]
+                          @"serve_district": [self getListString:serveDistrictArray byKey:@"id" count:0],
+                          @"service_ids": [self getListString:serviceIdsArray byKey:@"id" count:0],
+                          @"work_experience_ids": [self getListString:workExpIdsArray byKey:@"id" count:0]
                           };
     [MobileAPI InsertUserUpdateApplyWithParameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);
         if ([[responseObject[@"state"] safeString] integerValue]==0) {
+            [UserManage sharedManager].decs = [self getListString:serveDistrictArray byKey:@"name" count:0];
             hud.mode = MBProgressHUDModeText;
             hud.detailsLabelText = @"修改成功，请耐心等待审核";
             [hud hide:YES afterDelay:1.5f];
@@ -356,14 +363,14 @@
     //    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.delegate = self;
-    imagePickerController.allowsEditing = NO;
+    imagePickerController.allowsEditing = YES;
     imagePickerController.sourceType = sourceType;
     [self presentViewController:imagePickerController animated:YES completion:nil];
     //    }
 }
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
-    UIImage *image2=[info objectForKey:UIImagePickerControllerOriginalImage];
+    UIImage *image2 = [info objectForKey:UIImagePickerControllerEditedImage];
     self.headImageView.image = image2;
     [picker dismissViewControllerAnimated:YES completion:nil];
     self.isUploadImage = YES;
@@ -385,6 +392,12 @@
         [hud hide:YES];
         self.isUploadImage = NO;
     }];
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
 }
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

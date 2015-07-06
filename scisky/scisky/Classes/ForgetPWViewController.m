@@ -9,8 +9,10 @@
 #import "ForgetPWViewController.h"
 #import "MobileAPI.h"
 #import "ReactiveCocoa.h"
+#import "IHKeyboardAvoiding.h"
+#import "UserManage.h"
 
-@interface ForgetPWViewController ()
+@interface ForgetPWViewController () <UITextFieldDelegate>
 @property (nonatomic,weak) IBOutlet UITextField *phoneTextField;
 @property (nonatomic,weak) IBOutlet UITextField *codeTextField;
 @property (nonatomic,weak) IBOutlet UITextField *passwordTextField;
@@ -95,6 +97,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    [IHKeyboardAvoiding setAvoidingView:self.view withTarget:self.repasswordTextField];
+    return YES;
+}
+
+-(BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    [IHKeyboardAvoiding removeTarget:self.repasswordTextField];
+    return YES;
+}
+
 -(IBAction)sendClick:(id)sender
 {
     if (![self.phoneTextField.text checkTel]) {
@@ -107,7 +121,8 @@
     }
     [self.codeButton setTitle:@"发送中" forState:UIControlStateNormal];
     NSDictionary *dicParameters = @{
-                          @"mobile" : self.phoneTextField.text
+                          @"mobile" : self.phoneTextField.text,
+                          @"type" : @2
                           };
     [MobileAPI GetVerificationCodeWithParameters:dicParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);
@@ -194,9 +209,12 @@
         return;
     }
     hud.detailsLabelText = @"登陆中";
+    NSString *deviceToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"];
     NSDictionary *dicParameters = @{
                                     @"loginname" : self.phoneTextField.text,
-                                    @"password" : self.passwordTextField.text
+                                    @"password" : self.passwordTextField.text,
+                                    @"deviceType" : @1,
+                                    @"deviceToken" : deviceToken?deviceToken:@" "
                                     };
     [MobileAPI CodeChangePasswordWithParameters:dicParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if(![MobileAPI getErrorStringWithState:responseObject[@"state"]])

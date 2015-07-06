@@ -11,12 +11,14 @@
 #import "MJRefresh.h"
 #import "LocationTableViewCell.h"
 #import "MobileAPI.h"
+#import "BaiduMapAPI/BMKGeocodeSearch.h"
 
 @interface LocationTableViewController () <CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,weak) IBOutlet UILabel *cityLabel;
 @property (nonatomic,weak) IBOutlet UIButton *loactionButton;
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
 @property (nonatomic,strong) CLLocationManager *locationManager;
+@property (nonatomic,strong) BMKGeoCodeSearch *searcher;
 @end
 
 @implementation LocationTableViewController
@@ -71,6 +73,7 @@
         [self.dic setObject:citydic[@"id"] forKey:@"id"];
         [self.dic setObject:citydic[@"cityname"] forKey:@"cityname"];
     }
+    _searcher.delegate = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -176,16 +179,36 @@
     
     NSLog(@"%@",[NSString stringWithFormat:@"经度:%3.5f\n纬度:%3.5f",newLocation.coordinate.latitude,newLocation.coordinate.longitude]);
     
+    //发起反向地理编码检索
+    _searcher =[[BMKGeoCodeSearch alloc]init];
+    _searcher.delegate = self;
+    CLLocationCoordinate2D pt = newLocation.coordinate;
+    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[
+    BMKReverseGeoCodeOption alloc]init];
+    reverseGeoCodeSearchOption.reverseGeoPoint = pt;
+    BOOL flag = [_searcher reverseGeoCode:reverseGeoCodeSearchOption];
+    if(flag)
+    {
+      NSLog(@"反geo检索发送成功");
+    }
+    else
+    {
+      NSLog(@"反geo检索发送失败");
+    }
+    /*
     CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *array, NSError *error) {
         
         if (array.count > 0)
         {
             CLPlacemark *placemark = [array objectAtIndex:0];
-            //将获得的所有信息显示到label上
-            //             self.location.text = placemark.name;
             //获取城市
             NSString *city = placemark.locality;
+            
+            NSString *cityName = placemark.addressDictionary[@"State"];
+            // 将最后一个字符【市】去掉,转成城市对应,用工具保存
+            cityName = [cityName substringToIndex:cityName.length - 1];
+            
             if ([city length]<1) {
                 //四大直辖市的城市信息无法通过locality获得，只能通过获取省份的方法来获得（如果city为空，则可知为直辖市）
                 city = placemark.administrativeArea;
@@ -209,8 +232,31 @@
             });
         }
     }];
+    */
     
 }
+
+//接收反向地理编码结果
+-(void) onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:
+(BMKReverseGeoCodeResult *)result
+errorCode:(BMKSearchErrorCode)error{
+  if (error == BMK_SEARCH_NO_ERROR) {
+      NSString *city = result.addressDetail.city;
+      if ([city length]<1) {
+          //四大直辖市的城市信息无法通过locality获得，只能通过获取省份的方法来获得（如果city为空，则可知为直辖市）
+          city = result.addressDetail.province;
+      }
+      locationCityName = city;
+      [self updateLocationLabel];
+  }
+  else {
+      self.cityLabel.text = @"无法定位";
+      UIAlertView *alert =[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"警告", nil) message:NSLocalizedString(@"无法获得您当前的位置请手动选择城市", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"确定", nil) otherButtonTitles: nil];
+      [alert show];
+  }
+}
+
+//不使用时将delegate设置为 nil
 #pragma mark - Table view data source
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

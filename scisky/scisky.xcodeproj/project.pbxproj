@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D332B50B1B26A6E600041999 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D332B50A1B26A6E600041999 /* main.m */; };
-		D332B50E1B26A6E600041999 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D332B50D1B26A6E600041999 /* AppDelegate.m */; };
+		D332B50E1B26A6E600041999 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = D332B50D1B26A6E600041999 /* AppDelegate.mm */; };
 		D332B5141B26A6E600041999 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D332B5121B26A6E600041999 /* Main.storyboard */; };
 		D332B5161B26A6E600041999 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D332B5151B26A6E600041999 /* Images.xcassets */; };
 		D332B5191B26A6E600041999 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D332B5171B26A6E600041999 /* LaunchScreen.xib */; };
@@ -352,7 +352,16 @@
 		D3A8D78E1B43D2F9004A053C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3A8D78B1B43D2F9004A053C /* Default-568h@2x.png */; };
 		D3A8D78F1B43D2F9004A053C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D3A8D78C1B43D2F9004A053C /* Default.png */; };
 		D3A8D7901B43D2F9004A053C /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3A8D78D1B43D2F9004A053C /* Default@2x.png */; };
-		D3A8D7971B4525E3004A053C /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7961B4525E3004A053C /* NetworkExtension.framework */; };
+		D3A8D7991B453B59004A053C /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7981B453B59004A053C /* NetworkExtension.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D3A8D79D1B453F24004A053C /* libUMessage_Sdk_1.1.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D79B1B453F24004A053C /* libUMessage_Sdk_1.1.0.a */; };
+		D3A8D7A11B48E227004A053C /* UserManage.m in Sources */ = {isa = PBXBuildFile; fileRef = D3A8D7A01B48E227004A053C /* UserManage.m */; };
+		D3A8D7A31B499904004A053C /* BaiduMapAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7A21B499904004A053C /* BaiduMapAPI.framework */; };
+		D3A8D7A51B499C54004A053C /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7A41B499C54004A053C /* CoreLocation.framework */; };
+		D3A8D7A71B499C61004A053C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7A61B499C61004A053C /* QuartzCore.framework */; };
+		D3A8D7A91B499C6D004A053C /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7A81B499C6D004A053C /* OpenGLES.framework */; };
+		D3A8D7AB1B499C7B004A053C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7AA1B499C7B004A053C /* SystemConfiguration.framework */; };
+		D3A8D7AD1B499C87004A053C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7AC1B499C87004A053C /* CoreGraphics.framework */; };
+		D3A8D7AF1B499C92004A053C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7AE1B499C92004A053C /* Security.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -370,7 +379,7 @@
 		D332B5091B26A6E600041999 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D332B50A1B26A6E600041999 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D332B50C1B26A6E600041999 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		D332B50D1B26A6E600041999 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		D332B50D1B26A6E600041999 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		D332B5131B26A6E600041999 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D332B5151B26A6E600041999 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = scisky/Images.xcassets; sourceTree = "<group>"; };
 		D332B5181B26A6E600041999 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -895,7 +904,18 @@
 		D3A8D78C1B43D2F9004A053C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		D3A8D78D1B43D2F9004A053C /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		D3A8D7931B440774004A053C /* scisky.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = scisky.entitlements; sourceTree = "<group>"; };
-		D3A8D7961B4525E3004A053C /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		D3A8D7981B453B59004A053C /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
+		D3A8D79B1B453F24004A053C /* libUMessage_Sdk_1.1.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.1.0.a; sourceTree = "<group>"; };
+		D3A8D79C1B453F24004A053C /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
+		D3A8D79F1B48E227004A053C /* UserManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManage.h; sourceTree = "<group>"; };
+		D3A8D7A01B48E227004A053C /* UserManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManage.m; sourceTree = "<group>"; };
+		D3A8D7A21B499904004A053C /* BaiduMapAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI.framework; sourceTree = "<group>"; };
+		D3A8D7A41B499C54004A053C /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		D3A8D7A61B499C61004A053C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		D3A8D7A81B499C6D004A053C /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		D3A8D7AA1B499C7B004A053C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		D3A8D7AC1B499C87004A053C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		D3A8D7AE1B499C92004A053C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -903,8 +923,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3A8D7AF1B499C92004A053C /* Security.framework in Frameworks */,
+				D3A8D7AD1B499C87004A053C /* CoreGraphics.framework in Frameworks */,
+				D3A8D7AB1B499C7B004A053C /* SystemConfiguration.framework in Frameworks */,
+				D3A8D7A91B499C6D004A053C /* OpenGLES.framework in Frameworks */,
+				D3A8D7A71B499C61004A053C /* QuartzCore.framework in Frameworks */,
+				D3A8D7A51B499C54004A053C /* CoreLocation.framework in Frameworks */,
+				D3A8D79D1B453F24004A053C /* libUMessage_Sdk_1.1.0.a in Frameworks */,
 				D332B7301B29CFC600041999 /* MapKit.framework in Frameworks */,
-				D3A8D7971B4525E3004A053C /* NetworkExtension.framework in Frameworks */,
+				D3A8D7A31B499904004A053C /* BaiduMapAPI.framework in Frameworks */,
+				D3A8D7991B453B59004A053C /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -926,6 +954,7 @@
 				D332B7181B29182F00041999 /* ConstructionSingle.storyboard */,
 				D332B5151B26A6E600041999 /* Images.xcassets */,
 				D332B5171B26A6E600041999 /* LaunchScreen.xib */,
+				D3A8D79A1B453F24004A053C /* UMessage_Sdk_1.1.0 */,
 				D332B5071B26A6E600041999 /* scisky */,
 				D332B5961B26A98F00041999 /* Resource */,
 				D332B52E1B26A97800041999 /* Third Party */,
@@ -947,11 +976,12 @@
 		D332B5071B26A6E600041999 /* scisky */ = {
 			isa = PBXGroup;
 			children = (
+				D3A8D79E1B48E1F1004A053C /* Manage */,
 				D3A8D7931B440774004A053C /* scisky.entitlements */,
 				D332B71D1B29708E00041999 /* NetWorke */,
 				D332B5991B26A9A300041999 /* Classes */,
 				D332B50C1B26A6E600041999 /* AppDelegate.h */,
-				D332B50D1B26A6E600041999 /* AppDelegate.m */,
+				D332B50D1B26A6E600041999 /* AppDelegate.mm */,
 				D332B5081B26A6E600041999 /* Supporting Files */,
 			);
 			path = scisky;
@@ -1131,11 +1161,11 @@
 		D332B5991B26A9A300041999 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				D332B7391B29E7A400041999 /* PersonalProfile */,
 				D332B6FC1B275FD100041999 /* MainViewController.h */,
 				D332B6FD1B275FD100041999 /* MainViewController.m */,
 				D332B59D1B26CBD100041999 /* HomeViewController.h */,
 				D332B59E1B26CBD100041999 /* HomeViewController.m */,
+				D332B7391B29E7A400041999 /* PersonalProfile */,
 				D332B7381B29E5E900041999 /* SSClasses */,
 				D332B7251B29920D00041999 /* ConstructionSingle */,
 				D332B6F81B275F6100041999 /* Login */,
@@ -1409,7 +1439,14 @@
 		D332B7311B29CFCD00041999 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D3A8D7961B4525E3004A053C /* NetworkExtension.framework */,
+				D3A8D7AE1B499C92004A053C /* Security.framework */,
+				D3A8D7AC1B499C87004A053C /* CoreGraphics.framework */,
+				D3A8D7AA1B499C7B004A053C /* SystemConfiguration.framework */,
+				D3A8D7A81B499C6D004A053C /* OpenGLES.framework */,
+				D3A8D7A61B499C61004A053C /* QuartzCore.framework */,
+				D3A8D7A41B499C54004A053C /* CoreLocation.framework */,
+				D3A8D7A21B499904004A053C /* BaiduMapAPI.framework */,
+				D3A8D7981B453B59004A053C /* NetworkExtension.framework */,
 				D332B72F1B29CFC600041999 /* MapKit.framework */,
 			);
 			name = Frameworks;
@@ -1720,6 +1757,24 @@
 			path = MJRefresh;
 			sourceTree = "<group>";
 		};
+		D3A8D79A1B453F24004A053C /* UMessage_Sdk_1.1.0 */ = {
+			isa = PBXGroup;
+			children = (
+				D3A8D79B1B453F24004A053C /* libUMessage_Sdk_1.1.0.a */,
+				D3A8D79C1B453F24004A053C /* UMessage.h */,
+			);
+			path = UMessage_Sdk_1.1.0;
+			sourceTree = "<group>";
+		};
+		D3A8D79E1B48E1F1004A053C /* Manage */ = {
+			isa = PBXGroup;
+			children = (
+				D3A8D79F1B48E227004A053C /* UserManage.h */,
+				D3A8D7A01B48E227004A053C /* UserManage.m */,
+			);
+			name = Manage;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1769,7 +1824,7 @@
 				TargetAttributes = {
 					D332B5041B26A6E600041999 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = N4Q8DG7HD5;
+						DevelopmentTeam = F44XSCNJGN;
 						SystemCapabilities = {
 							com.apple.VPNLite = {
 								enabled = 1;
@@ -2058,6 +2113,7 @@
 				D371DA021B3FD4EB0038DB57 /* NSIndexSet+RACSequenceAdditions.m in Sources */,
 				D371DA3B1B3FD4EB0038DB57 /* RACSubscriptionScheduler.m in Sources */,
 				D332B5A81B26D05200041999 /* RightViewController.m in Sources */,
+				D3A8D7A11B48E227004A053C /* UserManage.m in Sources */,
 				D332B5781B26A97800041999 /* AFHTTPSessionManager.m in Sources */,
 				D371DA221B3FD4EB0038DB57 /* RACEvent.m in Sources */,
 				D332B57F1B26A97800041999 /* IHKeyboardAvoiding.m in Sources */,
@@ -2118,7 +2174,7 @@
 				D371DA551B3FD4EB0038DB57 /* UITextView+RACSignalSupport.m in Sources */,
 				D332B5911B26A97800041999 /* UIView+WebCacheOperation.m in Sources */,
 				D332B71C1B291D4F00041999 /* FDAlertView.m in Sources */,
-				D332B50E1B26A6E600041999 /* AppDelegate.m in Sources */,
+				D332B50E1B26A6E600041999 /* AppDelegate.mm in Sources */,
 				D332B7041B27F03500041999 /* RegisterViewController.m in Sources */,
 				D371DA111B3FD4EB0038DB57 /* NSUserDefaults+RACSupport.m in Sources */,
 				D371DA511B3FD4EB0038DB57 /* UISwitch+RACSignalSupport.m in Sources */,
@@ -2297,11 +2353,20 @@
 				CODE_SIGN_ENTITLEMENTS = scisky/scisky.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PREFIX_HEADER = "scisky/scisky-Prefix.pch";
 				INFOPLIST_FILE = scisky/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/UMessage_Sdk_1.1.0",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -2315,11 +2380,20 @@
 				CODE_SIGN_ENTITLEMENTS = scisky/scisky.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PREFIX_HEADER = "scisky/scisky-Prefix.pch";
 				INFOPLIST_FILE = scisky/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/UMessage_Sdk_1.1.0",
+				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

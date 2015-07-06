@@ -22,6 +22,7 @@
         _sharedManager = [[self manager]initWithBaseURL:nil];
         _sharedManager.requestSerializer = [AFJSONRequestSerializer serializer];
         //_sharedManager.requestSerializer = [AFHTTPRequestSerializer serializer];
+        [_sharedManager.requestSerializer setStringEncoding:NSUTF8StringEncoding];
         _sharedManager.responseSerializer = [AFHTTPResponseSerializer serializer];
         [_sharedManager.responseSerializer setStringEncoding:NSUTF8StringEncoding];
         [_sharedManager.responseSerializer setAcceptableContentTypes:[NSSet setWithObjects:@"text/plain",@"application/json",@"text/html",nil]];

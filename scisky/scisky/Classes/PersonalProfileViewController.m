@@ -10,8 +10,9 @@
 #import "PersonalProfileTableViewCell.h"
 #import "MobileAPI.h"
 #import "UIImageView+WebCache.h"
+#import "UserManage.h"
 
-@interface PersonalProfileViewController ()
+@interface PersonalProfileViewController ()<UITextFieldDelegate>
 @property (nonatomic,weak) IBOutlet UIImageView *headImageView;
 @property (nonatomic,weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic,weak) IBOutlet UILabel *phoneLabel;
@@ -28,19 +29,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    long time = [[[NSUserDefaults standardUserDefaults] objectForKey:@"birthday"] longLongValue];
-    NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY"];
-    NSString *dataNow = [formatter stringFromDate:[NSDate date]];
-    NSString *databirthday = [formatter stringFromDate:birthday];
-    NSString *string = [NSString stringWithFormat:@"%ld",[dataNow integerValue] - [databirthday integerValue]];
-                                  
-    tableViewTitleArray = @[@"年龄",@"位置",@"服务区域",@"提供服务",@"施工经验"];
-    tableViewValueArray = @[string,StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"locationDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistriceDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serviceDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"workExpDesc"])];
-    
-    self.nameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"nickname"];
-    self.phoneLabel.text = [NSString stringWithFormat:@"账号：%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"]];
     NSDictionary *dic = @{
                           @"id": [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]
                           };
@@ -48,15 +36,7 @@
         NSLog(@"%@",responseObject);
         [MobileAPI saveUserImformatin:responseObject[@"data"]];
         [MobileAPI saveUserImformatin2:responseObject[@"data"]];
-        long time = [[[NSUserDefaults standardUserDefaults] objectForKey:@"birthday"] longLongValue];
-        NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"YYYY"];
-        NSString *dataNow = [formatter stringFromDate:[NSDate date]];
-        NSString *databirthday = [formatter stringFromDate:birthday];
-        NSString *string = [NSString stringWithFormat:@"%ld",[dataNow integerValue] - [databirthday integerValue]];
-        tableViewValueArray = @[string,StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"locationDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistriceDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serviceDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"workExpDesc"])];
-        [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Modify-data-Avatar"]];
+        [self updateUI];
         [self.tabelView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         ;
@@ -68,6 +48,32 @@
 {
     [super viewWillAppear:animated];
     [SSUIStyle RoundStyle:self.headImageView];
+    [self updateUI];
+    [self.tabelView reloadData];
+}
+
+-(void)updateUI
+{
+    NSString *serveDistriceDesc = StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistriceDesc"]);
+    if ([[UserManage sharedManager].decs length]>0) {
+        if (![[UserManage sharedManager].decs isEqualToString:serveDistriceDesc]) {
+            serveDistriceDesc = [NSString stringWithFormat:@"%@(审核中)",[UserManage sharedManager].decs];
+        }
+    }
+    
+    
+    long time = [[[NSUserDefaults standardUserDefaults] objectForKey:@"birthday"] longLongValue];
+    NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYY"];
+    NSString *dataNow = [formatter stringFromDate:[NSDate date]];
+    NSString *databirthday = [formatter stringFromDate:birthday];
+    NSString *string = [NSString stringWithFormat:@"%ld",[dataNow integerValue] - [databirthday integerValue]];
+    tableViewTitleArray = @[@"年龄",@"位置",@"服务区域",@"提供服务",@"施工经验"];
+    tableViewValueArray = @[string,StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"locationDesc"]),serveDistriceDesc,StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serviceDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"workExpDesc"])];
+    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Modify-data-Avatar"]];
+    self.nameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"nickname"];
+    self.phoneLabel.text = [NSString stringWithFormat:@"账号：%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"]];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -101,6 +107,8 @@
     
     return cell;
 }
+
+
 /*
 #pragma mark - Navigation
 

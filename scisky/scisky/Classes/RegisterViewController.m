@@ -44,6 +44,17 @@
     
     
     self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
+    tapGestureRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+    
+}
+
+-(void)keyboardHide:(UITapGestureRecognizer*)tap{
+    [self.phoneTf resignFirstResponder];
+    [self.codeTf resignFirstResponder];
+    [self.pwTf resignFirstResponder];
+    [self.rePwTf resignFirstResponder];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -113,7 +124,8 @@
     }
     [self.codeButton setTitle:@"发送中" forState:UIControlStateNormal];
     NSDictionary *dicParameters = @{
-                                    @"mobile" : self.phoneTf.text
+                                    @"mobile" : self.phoneTf.text,
+                                    @"type" : @1
                                     };
     [MobileAPI GetVerificationCodeWithParameters:dicParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);
@@ -134,7 +146,11 @@
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
             hud.dimBackground = YES;
             hud.mode = MBProgressHUDModeText;
-            hud.detailsLabelText = [MobileAPI getErrorStringWithState:responseObject[@"state"]];
+            if ([[dic[@"state"] safeString] integerValue]==1) {
+                hud.detailsLabelText = @"该号码已经被注册";
+            }
+            else
+                hud.detailsLabelText = [MobileAPI getErrorStringWithState:responseObject[@"state"]];
             [hud hide:YES afterDelay:1.5f];
             [self.codeButton setTitle:@"发送验证码" forState:UIControlStateNormal];
         }
@@ -200,7 +216,7 @@
         [hud hide:YES afterDelay:1.5f];
         return;
     }
-     
+    
     [self performSegueWithIdentifier:@"PerfectData" sender:nil];
 }
 

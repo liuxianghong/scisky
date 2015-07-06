@@ -122,7 +122,8 @@
     }
     [self.codeButton setTitle:@"发送中" forState:UIControlStateNormal];
     NSDictionary *dicParameters = @{
-                                    @"mobile" : [self.dic[@"customerPhone"] safeString]
+                                    @"mobile" : [self.dic[@"customerPhone"] safeString],
+                                    @"type" : @3
                                     };
     [MobileAPI GetVerificationCodeWithParameters:dicParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);

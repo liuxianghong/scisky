@@ -59,25 +59,28 @@
 
 -(NSString *)AESEncrypt{
     
-    return [self encryptWithDES];
+    NSString *encodeString = [NSString encodeToPercentEscapeString:self];
+    return [encodeString encryptWithDES];
 }
 
 - (NSString *)encryptWithDES{
     
+    //NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_18030_2000);
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
+    //NSData *data=[self dataUsingEncoding:enc];
     size_t plainTextBufferSize = [data length];
     CCCryptorStatus ccStatus;
     uint8_t *bufferPtr = NULL;
     size_t bufferPtrSize = 0;
     size_t movedBytes = 0;
-    bufferPtrSize = (plainTextBufferSize + kCCBlockSizeAES128) ;//& ~(kCCBlockSizeDES - 1);
+    bufferPtrSize = (plainTextBufferSize + kCCBlockSize3DES) & ~(kCCBlockSize3DES - 1);
     bufferPtr = malloc( bufferPtrSize * sizeof(uint8_t));
     memset((void *)bufferPtr, 0x0, bufferPtrSize);
     const void *vinitVec = (const void *) [KeyStr UTF8String];
     
     ccStatus = CCCrypt(kCCEncrypt,
                        kCCAlgorithmDES,
-                       kCCOptionPKCS7Padding,
+                       kCCOptionPKCS7Padding ,
                        [KeyStr UTF8String],
                        kCCKeySizeDES,
                        vinitVec,
@@ -111,7 +114,7 @@
 }
 
 - (NSString *)decryptWithDES{
-    NSData *data = [self dataUsingEncoding:NSASCIIStringEncoding];
+    NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     char *vplainText = strdup([self UTF8String]);//calloc([self length] * sizeof(char) + 1);
     //    strcpy(vplainText, [self UTF8String]);
     char *plain = malloc([self length] / 2 *sizeof(char));
