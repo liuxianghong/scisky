@@ -12,8 +12,9 @@
 #import "MJRefresh.h"
 #import "MobileAPI.h"
 #import "ConstructionSingleDetailTableViewController.h"
+#import "UIScrollView+EmptyDataSet.h"
 
-@interface CenterTableViewController ()<centerTableViewCellDelegate,UIAlertViewDelegate>
+@interface CenterTableViewController ()<centerTableViewCellDelegate,UIAlertViewDelegate,DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @end
 
@@ -22,6 +23,7 @@
     BOOL first;
     NSArray *tableArray;
     
+    UILabel *labelNoOreder;
     NSDictionary *cancelDic;
 }
 
@@ -51,6 +53,12 @@
     tapGestureRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGestureRecognizer];
     
+    labelNoOreder = [[UILabel alloc]init];
+    labelNoOreder.text = @"您暂时还沒有待服务的订单！";
+    labelNoOreder.textColor = [UIColor darkGrayColor];
+    labelNoOreder.font = [UIFont systemFontOfSize:18];
+    [labelNoOreder sizeToFit];
+    [self.view addSubview:labelNoOreder];
 }
 
 -(void)keyboardHide:(UITapGestureRecognizer*)tap{
@@ -58,16 +66,36 @@
     [self.viewDeckController closeRightViewAnimated:YES];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView reloadData];
+    for (NSDictionary *dic in tableArray) {
+        if ([dic[@"orderStatus"] integerValue]!=1) {
+            first = YES;
+            break;
+        }
+    }
+    
+    labelNoOreder.centerX = self.view.width/2;
+    labelNoOreder.centerY = self.view.height/2-30;
+}
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
     if (first) {
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]) {
             [self.tableView.header beginRefreshing];
             first = NO;
         }
     }
+    else
+    {
+        
+    }
+    [self.tableView reloadData];
 }
 
 
@@ -86,11 +114,19 @@
                                         };
         [MobileAPI GetSupplierOrderListWithParameters:dicParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"%@",responseObject);
-            tableArray = responseObject[@"data"];
+            NSMutableArray *arry = [[NSMutableArray alloc]init];
+            for (NSDictionary *dic in responseObject[@"data"]) {
+                NSMutableDictionary *dic2 = [[NSMutableDictionary alloc]initWithDictionary:dic];
+                [arry addObject:dic2];
+            }
+            tableArray = arry;//responseObject[@"data"];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%ld",[tableArray count]] forKey:@"ordeNewCount"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             [self.tableView.header endRefreshing];
             [self.tableView reloadData];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             [self.tableView.header endRefreshing];
+            [self.tableView reloadData];
         }];
     }
 }
@@ -107,6 +143,7 @@
 
 
 - (void)logout{
+    [self.viewDeckController closeRightViewAnimated:YES];
     first = YES;
 }
 #pragma mark - Table view data source
@@ -120,6 +157,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
+    if ([tableArray count]>0) {
+        labelNoOreder.hidden = YES;
+    }
+    else
+        labelNoOreder.hidden = NO;
     return [tableArray count];
 }
 
@@ -197,7 +239,24 @@
                 }];
             }
         }
-    };
+    }
+}
+
+#pragma mark - DZNEmptyDataSetSource
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    NSAttributedString *emptyTitle = [[NSAttributedString alloc]initWithString:@""];
+    return emptyTitle;
+}
+
+- (BOOL)emptyDataSetShouldAllowTouch:(UIScrollView *)scrollView
+{
+    return YES;
+}
+
+- (BOOL)emptyDataSetShouldAllowScroll:(UIScrollView *)scrollView
+{
+    return YES;
 }
 /*
 // Override to support conditional editing of the table view.

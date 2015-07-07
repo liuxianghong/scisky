@@ -28,9 +28,9 @@
 @property (nonatomic,weak) IBOutlet UIButton *buttonCancel;
 @property (nonatomic,weak) IBOutlet UIButton *buttonSee;
 
-@property (nonatomic,strong) NSDictionary *dic;
+@property (nonatomic,strong) NSMutableDictionary *dic;
 
 @property (nonatomic,weak) IBOutlet id<centerTableViewCellDelegate> delegate;
 
--(void)setData:(NSDictionary *)dic;
+-(void)setData:(NSMutableDictionary *)dic;
 @end

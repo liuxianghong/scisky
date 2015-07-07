@@ -38,6 +38,8 @@
     NSMutableArray *workExpIdsArray;
     
     BOOL first;
+    
+    NSString *locationID;
 }
 
 - (void)viewDidLoad {
@@ -75,24 +77,82 @@
     self.ageTextField.inputAccessoryView = topView;
     
     self.nameTextField.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"nickname"];
-    long time = [[[NSUserDefaults standardUserDefaults] objectForKey:@"birthday"] longLongValue];
+    NSTimeInterval time = [[[NSUserDefaults standardUserDefaults] objectForKey:@"birthday"] longLongValue];
     NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-dd"];
     NSString *databirthday = [formatter stringFromDate:birthday];
     self.ageTextField.text = databirthday;
     
+    
+    
+    
     self.locationLabel.text = StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"locationDesc"]);
     self.serveDistrictLabel.text = StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistriceDesc"]);
     self.serviceIdsLabel.text = StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serviceDesc"]);
     self.workExpIdsLabel.text = StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"workExpDesc"]);
     
-    locationDic = [[NSMutableDictionary alloc]init];
-    [locationDic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"location" ] forKey:@"id"];
-    [locationDic setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"locationDesc" ] forKey:@"cityname"];
     
-    NSArray *arrayserveDistriceDesc = [StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistriceDesc"]) componentsSeparatedByString:@","];
-    NSArray *arrayserveDistrict = [StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistrict"]) componentsSeparatedByString:@","];
+    
+    
+    
+    NSString *location = [[[NSUserDefaults standardUserDefaults] objectForKey:@"location"] safeString];
+    NSString *locationDesc = [[NSUserDefaults standardUserDefaults] objectForKey:@"locationDesc"];
+    
+    NSString *serveDistriceDesc = [[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistriceDesc"];
+    NSString *serveDistrict = [[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistrict"];
+    
+    NSString *serviceDesc = [[NSUserDefaults standardUserDefaults] objectForKey:@"serviceDesc"];
+    NSString *serviceIds = [[NSUserDefaults standardUserDefaults] objectForKey:@"serviceIds"];
+    
+    NSString *workExpDesc = [[NSUserDefaults standardUserDefaults] objectForKey:@"workExpDesc"];
+    NSString *workExpIds = [[NSUserDefaults standardUserDefaults] objectForKey:@"workExpIds"];
+    
+    NSString *headImage = [[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"];
+    
+    
+    if (self.dicUpdateApply[@"state"]&&([[self.dicUpdateApply[@"state"] safeString] integerValue]==0)) {
+        //self.title = @"个人资料（审核中）";
+        if (self.dicUpdateApply[@"headimage"]) {
+            headImage = [self.dicUpdateApply[@"headimage"] safeString];
+        }
+        
+        if (self.dicUpdateApply[@"nickname"]) {
+            self.nameTextField.text = [self.dicUpdateApply[@"nickname"] safeString];
+        }
+        
+        if ([[self.dicUpdateApply[@"location_desc"] safeString] length]>0) {
+            location = [self.dicUpdateApply[@"location"] safeString];
+            locationDesc = StringNoNull([self.dicUpdateApply[@"location_desc"] safeString]);
+        }
+        if ([[self.dicUpdateApply[@"serve_district_desc"] safeString] length]>0) {
+            serveDistrict = [self.dicUpdateApply[@"serve_district"] safeString];
+            serveDistriceDesc = StringNoNull([self.dicUpdateApply[@"serve_district_desc"] safeString]);
+        }
+        if ([[self.dicUpdateApply[@"service_desc"] safeString] length]>0) {
+            serviceDesc = StringNoNull([self.dicUpdateApply[@"service_desc"] safeString]);
+            serviceIds = [self.dicUpdateApply[@"service_ids"] safeString];
+        }
+        if ([[self.dicUpdateApply[@"work_experience_desc"] safeString] length]>0) {
+            workExpDesc = StringNoNull([self.dicUpdateApply[@"work_experience_desc"] safeString]);
+            workExpIds = [self.dicUpdateApply[@"work_experience_ids"] safeString];
+        }
+        
+    }
+    else
+    {
+        //self.title = @"个人资料";
+    }
+    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",headImage]] placeholderImage:[UIImage imageNamed:@"Modify-data-Avatar"]];
+    
+    locationDic = [[NSMutableDictionary alloc]init];
+    [locationDic setObject:location forKey:@"id"];
+    locationID = [location safeString];
+    [locationDic setObject:locationDesc forKey:@"cityname"];
+    
+    
+    NSArray *arrayserveDistriceDesc = [StringNoNull(serveDistriceDesc) componentsSeparatedByString:@","];
+    NSArray *arrayserveDistrict = [StringNoNull(serveDistrict) componentsSeparatedByString:@","];
     serveDistrictArray = [[NSMutableArray alloc]init];
     for(int i = 0;i<[arrayserveDistriceDesc count]&&i<[arrayserveDistrict count];i++)
     {
@@ -103,8 +163,8 @@
         [serveDistrictArray addObject:dic];
     }
     
-    NSArray *arrayserviceDesc = [StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serviceDesc"]) componentsSeparatedByString:@","];
-    NSArray *arrayserviceIds = [StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serviceIds"]) componentsSeparatedByString:@","];
+    NSArray *arrayserviceDesc = [StringNoNull(serviceDesc) componentsSeparatedByString:@","];
+    NSArray *arrayserviceIds = [StringNoNull(serviceIds) componentsSeparatedByString:@","];
     serviceIdsArray = [[NSMutableArray alloc]init];
     for(int i = 0;i<[arrayserviceDesc count]&&i<[arrayserviceIds count];i++)
     {
@@ -115,8 +175,8 @@
         [serviceIdsArray addObject:dic];
     }
     
-    NSArray *arrayserveworkExpDesc = [StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"workExpDesc"]) componentsSeparatedByString:@","];
-    NSArray *arrayworkExpIds = [StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"workExpIds"]) componentsSeparatedByString:@","];
+    NSArray *arrayserveworkExpDesc = [StringNoNull(workExpDesc) componentsSeparatedByString:@","];
+    NSArray *arrayworkExpIds = [StringNoNull(workExpIds) componentsSeparatedByString:@","];
     workExpIdsArray = [[NSMutableArray alloc]init];
     for(int i = 0;i<[arrayserveworkExpDesc count]&&i<[arrayworkExpIds count];i++)
     {
@@ -135,13 +195,17 @@
 {
     [super viewWillAppear:animated];
     
-    if (!first) {
-        self.locationLabel.text = locationDic[@"cityname"];
-        self.serveDistrictLabel.text = [self getListString:serveDistrictArray byKey:@"name" count:2];
-        self.serviceIdsLabel.text = [self getListString:serviceIdsArray byKey:@"name" count:2];
-        self.workExpIdsLabel.text = [self getListString:workExpIdsArray byKey:@"name" count:2];
+//    if (!first) {
+//
+//    }
+    if (![locationID isEqualToString:[locationDic[@"id"] safeString]]) {
+        [serveDistrictArray removeAllObjects];
+        locationID = [locationDic[@"id"] safeString];
     }
-    
+    self.locationLabel.text = locationDic[@"cityname"];
+    self.serveDistrictLabel.text = [self getListString:serveDistrictArray byKey:@"name" count:1];
+    self.serviceIdsLabel.text = [self getListString:serviceIdsArray byKey:@"name" count:1];
+    self.workExpIdsLabel.text = [self getListString:workExpIdsArray byKey:@"name" count:1];
     
     //[self.tableView reloadData];
 }

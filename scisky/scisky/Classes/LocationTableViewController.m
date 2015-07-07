@@ -13,7 +13,7 @@
 #import "MobileAPI.h"
 #import "BaiduMapAPI/BMKGeocodeSearch.h"
 
-@interface LocationTableViewController () <CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface LocationTableViewController () <CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,BMKGeoCodeSearchDelegate>
 @property (nonatomic,weak) IBOutlet UILabel *cityLabel;
 @property (nonatomic,weak) IBOutlet UIButton *loactionButton;
 @property (nonatomic,weak) IBOutlet UITableView *tableView;
@@ -143,6 +143,9 @@
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorized) {
+        if ([manager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+            [manager requestWhenInUseAuthorization];
+        }
         [manager startUpdatingLocation];
         
     }else if(status == kCLAuthorizationStatusDenied){
@@ -189,49 +192,53 @@
     BOOL flag = [_searcher reverseGeoCode:reverseGeoCodeSearchOption];
     if(flag)
     {
+        self.cityLabel.text = @"检索地理位置中";
+        //self.cityLabel.text = locationCityName;
       NSLog(@"反geo检索发送成功");
     }
     else
     {
+        //self.cityLabel.text = @"无法检索地理位置";
       NSLog(@"反geo检索发送失败");
+        CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
+        [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *array, NSError *error) {
+            
+            if (array.count > 0)
+            {
+                CLPlacemark *placemark = [array objectAtIndex:0];
+                //获取城市
+                NSString *city = placemark.locality;
+                
+                NSString *cityName = placemark.addressDictionary[@"State"];
+                // 将最后一个字符【市】去掉,转成城市对应,用工具保存
+                cityName = [cityName substringToIndex:cityName.length - 1];
+                
+                if ([city length]<1) {
+                    //四大直辖市的城市信息无法通过locality获得，只能通过获取省份的方法来获得（如果city为空，则可知为直辖市）
+                    city = placemark.administrativeArea;
+                }
+                locationCityName = city;
+                [self updateLocationLabel];
+                
+            }
+            else if (error == nil && [array count] == 0)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.cityLabel.text = @"无法定位";
+                    UIAlertView *alert =[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"警告", nil) message:NSLocalizedString(@"无法获得您当前的位置请手动选择城市", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"确定", nil) otherButtonTitles: nil];
+                    [alert show];
+                });
+            }
+            else if (error != nil)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.cityLabel.text = @"无法定位";
+                });
+            }
+        }];
     }
     /*
-    CLGeocoder * geoCoder = [[CLGeocoder alloc] init];
-    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *array, NSError *error) {
-        
-        if (array.count > 0)
-        {
-            CLPlacemark *placemark = [array objectAtIndex:0];
-            //获取城市
-            NSString *city = placemark.locality;
-            
-            NSString *cityName = placemark.addressDictionary[@"State"];
-            // 将最后一个字符【市】去掉,转成城市对应,用工具保存
-            cityName = [cityName substringToIndex:cityName.length - 1];
-            
-            if ([city length]<1) {
-                //四大直辖市的城市信息无法通过locality获得，只能通过获取省份的方法来获得（如果city为空，则可知为直辖市）
-                city = placemark.administrativeArea;
-            }
-            locationCityName = city;
-            [self updateLocationLabel];
-            
-        }
-        else if (error == nil && [array count] == 0)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.cityLabel.text = @"无法定位";
-                UIAlertView *alert =[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"警告", nil) message:NSLocalizedString(@"无法获得您当前的位置请手动选择城市", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"确定", nil) otherButtonTitles: nil];
-                [alert show];
-            });
-        }
-        else if (error != nil)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.cityLabel.text = @"无法定位";
-            });
-        }
-    }];
+    
     */
     
 }

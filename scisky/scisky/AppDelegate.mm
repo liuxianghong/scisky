@@ -16,7 +16,7 @@
 #define _IPHONE80_ 80000
 BMKMapManager* _mapManager;
 @interface AppDelegate ()<BMKGeneralDelegate>
-
+@property (nonatomic,strong) BMKMapManager* bmkManager;
 @end
 
 @implementation AppDelegate
@@ -30,12 +30,13 @@ BMKMapManager* _mapManager;
     
     // 要使用百度地图，请先启动BaiduMapManager
     _mapManager = [[BMKMapManager alloc]init];
-    BOOL ret = [_mapManager start:@"3pZ7Ow2nNXCh1DPmBY4qSGHI" generalDelegate:self];
+    self.bmkManager = _bmkManager;
+    BOOL ret = [_mapManager start:@"wBldLWbyW1B1DQfCIsWjXFlP" generalDelegate:self];
     //com.drkon.web.smarthome p6kSRVEUOoU4znpWdmc7mG0s T5eLzTX6ndG0WvczUonbkzWZ
     if (!ret) {
         NSLog(@"manager start failed!");
     }
-    
+    //5598b2dc67e58e420b000720
     
     [UMessage startWithAppkey:@"5598b2dc67e58e420b000720" launchOptions:launchOptions];
     
@@ -80,7 +81,7 @@ BMKMapManager* _mapManager;
     
     //for log
     [UMessage setLogEnabled:NO];
-    
+    [UMessage setAutoAlert:NO];
     return YES;
 }
 
@@ -98,6 +99,9 @@ BMKMapManager* _mapManager;
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"%@",userInfo);
+    NSString *str = userInfo[@"aps"][@"alert"];
+    UIAlertView *aview = [[UIAlertView alloc] initWithTitle:@"通知" message:str delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
+    [aview show];
     [UMessage didReceiveRemoteNotification:userInfo];
 }
 

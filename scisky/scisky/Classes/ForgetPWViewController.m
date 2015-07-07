@@ -9,7 +9,6 @@
 #import "ForgetPWViewController.h"
 #import "MobileAPI.h"
 #import "ReactiveCocoa.h"
-#import "IHKeyboardAvoiding.h"
 #import "UserManage.h"
 
 @interface ForgetPWViewController () <UITextFieldDelegate>
@@ -99,13 +98,11 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    [IHKeyboardAvoiding setAvoidingView:self.view withTarget:self.repasswordTextField];
     return YES;
 }
 
 -(BOOL)textFieldShouldEndEditing:(UITextField *)textField
 {
-    [IHKeyboardAvoiding removeTarget:self.repasswordTextField];
     return YES;
 }
 
@@ -138,12 +135,18 @@
             timeCount = 60;
             [self.codeButton setTitle:[NSString stringWithFormat:@"%ld秒后重新发送", timeCount] forState:UIControlStateDisabled];
             countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(countDown) userInfo:nil repeats:YES];
-        }else
+        }
+        else
         {
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
             hud.dimBackground = YES;
             hud.mode = MBProgressHUDModeText;
-            hud.detailsLabelText = [MobileAPI getErrorStringWithState:responseObject[@"state"]];
+            if([[dic[@"state"] safeString] integerValue]==1)
+            {
+                hud.detailsLabelText = @"电话号码不存在";
+            }
+            else
+                hud.detailsLabelText = [MobileAPI getErrorStringWithState:responseObject[@"state"]];
             [hud hide:YES afterDelay:1.5f];
             [self.codeButton setTitle:@"发送验证码" forState:UIControlStateNormal];
         }

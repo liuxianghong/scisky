@@ -362,6 +362,7 @@
 		D3A8D7AB1B499C7B004A053C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7AA1B499C7B004A053C /* SystemConfiguration.framework */; };
 		D3A8D7AD1B499C87004A053C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7AC1B499C87004A053C /* CoreGraphics.framework */; };
 		D3A8D7AF1B499C92004A053C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A8D7AE1B499C92004A053C /* Security.framework */; };
+		D3DE15421B4AD8660096D02D /* UIScrollView+EmptyDataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DE153F1B4AD8660096D02D /* UIScrollView+EmptyDataSet.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -916,6 +917,8 @@
 		D3A8D7AA1B499C7B004A053C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D3A8D7AC1B499C87004A053C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		D3A8D7AE1B499C92004A053C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		D3DE153E1B4AD8660096D02D /* UIScrollView+EmptyDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+EmptyDataSet.h"; sourceTree = "<group>"; };
+		D3DE153F1B4AD8660096D02D /* UIScrollView+EmptyDataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+EmptyDataSet.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1017,6 +1020,7 @@
 		D332B52E1B26A97800041999 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				D3DE153A1B4AD8660096D02D /* DZNEmptyDataSet */,
 				D371DA571B3FEAAB0038DB57 /* MJRefresh */,
 				D371D93A1B3FD4EB0038DB57 /* ReactiveCocoa */,
 				D332B52F1B26A97800041999 /* AFNetworking */,
@@ -1775,6 +1779,23 @@
 			name = Manage;
 			sourceTree = "<group>";
 		};
+		D3DE153A1B4AD8660096D02D /* DZNEmptyDataSet */ = {
+			isa = PBXGroup;
+			children = (
+				D3DE153D1B4AD8660096D02D /* Source */,
+			);
+			path = DZNEmptyDataSet;
+			sourceTree = "<group>";
+		};
+		D3DE153D1B4AD8660096D02D /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				D3DE153E1B4AD8660096D02D /* UIScrollView+EmptyDataSet.h */,
+				D3DE153F1B4AD8660096D02D /* UIScrollView+EmptyDataSet.m */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2157,6 +2178,7 @@
 				D371DA3E1B3FD4EB0038DB57 /* RACTuple.m in Sources */,
 				D332B7011B27D27B00041999 /* ForgetPWViewController.m in Sources */,
 				D332B57C1B26A97800041999 /* AFURLRequestSerialization.m in Sources */,
+				D3DE15421B4AD8660096D02D /* UIScrollView+EmptyDataSet.m in Sources */,
 				D371DA1C1B3FD4EB0038DB57 /* RACDynamicSequence.m in Sources */,
 				D332B58C1B26A97800041999 /* UIButton+WebCache.m in Sources */,
 				D371DA7D1B3FEAAB0038DB57 /* MJRefreshLegendFooter.m in Sources */,

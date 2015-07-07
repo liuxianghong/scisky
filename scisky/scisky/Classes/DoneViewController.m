@@ -123,7 +123,8 @@
     [self.codeButton setTitle:@"发送中" forState:UIControlStateNormal];
     NSDictionary *dicParameters = @{
                                     @"mobile" : [self.dic[@"customerPhone"] safeString],
-                                    @"type" : @3
+                                    @"type" : @3,
+                                    @"orderId" : [self.dic[@"id"] safeString]
                                     };
     [MobileAPI GetVerificationCodeWithParameters:dicParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);
@@ -203,6 +204,8 @@
     [MobileAPI UpdateOrderWithParameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if([[responseObject[@"state"] safeString] integerValue]==0)
         {
+            [self.dic setObject:@"2" forKey:@"orderStatus"];
+            //[self.dic setValue:@"2" forKey:@"orderStatus"];
             hud.detailsLabelText = @"操作成功";
             [self.navigationController popViewControllerAnimated:YES];
         }

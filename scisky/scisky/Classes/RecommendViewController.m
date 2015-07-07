@@ -47,7 +47,7 @@
     }
     hud.detailsLabelText = @"提交中";
     NSDictionary *dicParameters = @{
-                                    //@"supplierId" : [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]
+                                    @"supplierId" : [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"],
                                     @"mobile" : self.tf.text
                                     };
     [MobileAPI RecommendSoftwareWithParameters:dicParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {

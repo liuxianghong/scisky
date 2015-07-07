@@ -52,6 +52,7 @@
     self.commissionLabel.text = @"0";
     constructionSingle = @"0";
     isupdate = NO;
+    self.viewDeckController.delegate = self;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -59,7 +60,7 @@
     [super viewWillAppear:animated];
     self.nameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"nickname"];
     self.phoneLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"];
-    self.userIdLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"serviceCode"];
+    self.userIdLabel.text = [NSString stringWithFormat:@"服务工号：%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"serviceCode"]];
     [self.headImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Modify-data-Avatar"]];
     
     [SSUIStyle RoundStyle:self.headImage];
@@ -77,7 +78,7 @@
 -(void)getUserStatistics
 {
     if (isupdate) {
-        return;
+        //return;
     }
     isupdate = YES;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]) {
@@ -151,7 +152,7 @@
     }
     else if (indexPath.row==1) {
         cell.labelNum.hidden = NO;
-        cell.labelNum.text = StringNoNull(constructionSingle);
+        cell.labelNum.text = StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"ordeNewCount"]);
         cell.labelTitle.text = @"我的施工单";
     }
     else

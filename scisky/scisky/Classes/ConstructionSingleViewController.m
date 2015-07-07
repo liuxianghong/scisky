@@ -24,6 +24,10 @@
     NSArray *type2Array;
     NSArray *type3Array;
     
+    BOOL type1Need;
+    BOOL type2Need;
+    BOOL type3Need;
+    
     NSInteger type;
     
     BOOL first;
@@ -49,6 +53,10 @@
     first = YES;
     type = 1;
     
+    type1Need = YES;
+    type2Need = YES;
+    type3Need = YES;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,13 +64,28 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    for (NSDictionary *dic in type1Array) {
+        if ([dic[@"orderStatus"] integerValue]!=1) {
+            first = YES;
+            type1Need = YES;
+            type2Need = YES;
+            type3Need = YES;
+            break;
+        }
+    }
+}
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (first) {
+    //if (first)
+    {
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]) {
-            [self.tableView.header beginRefreshing];
-            first = NO;
+            [self readData];
+            //first = NO;
         }
     }
 }
@@ -79,9 +102,20 @@
         [MobileAPI GetSupplierOrderListWithParameters:dicParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"%@",responseObject);
             [self.tableView.header endRefreshing];
-            NSArray *tableArray = responseObject[@"data"];
+            NSMutableArray *tableArray = [[NSMutableArray alloc]init];
+            for(NSMutableDictionary *dic in responseObject[@"data"])
+            {
+                NSMutableDictionary *dic2 = [[NSMutableDictionary alloc]init];
+                for (NSString *key in [dic allKeys]) {
+                    [dic2 setObject:dic[key] forKey:key];
+                }
+                //[dic mutableCopy];//[[NSMutableDictionary alloc]initWithDictionary:[dic mutableCopy]];
+                [tableArray addObject:dic2];
+            }
             if (blockType==1) {
                 type1Array = tableArray;
+                [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%ld",[tableArray count]] forKey:@"ordeNewCount"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
             }
             else if(blockType==2) {
                 type2Array = tableArray;
@@ -104,13 +138,28 @@
 -(IBAction)selectClick:(UISegmentedControl *)sender
 {
     type = sender.selectedSegmentIndex + 1;
-    NSArray *arry = type==1?type1Array:(type==2?type2Array:type3Array);
-    if (arry) {
+    [self readData];
+}
+
+-(void)readData
+{
+    BOOL need = type==1?type1Need:(type==2?type2Need:type3Need);
+    if (!need) {
         [self.tableView reloadData];
     }
     else
     {
         [self.tableView.header beginRefreshing];
+        if (type==1) {
+            type1Need = NO;
+        }
+        else if(type==2)
+        {
+            type2Need = NO;
+        }
+        else
+            type3Need = NO;
+        
     }
 }
 #pragma mark - Table view data source

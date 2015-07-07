@@ -44,7 +44,7 @@
     
     self.tableView.tableFooterView = [UIView new];
     
-    self.title = self.type==1?@"余额":@"提成单";
+    self.title = self.type==1?@"服务账单":@"推荐提成";
     if (self.type==1) {
         self.titleLabel.text = @"余额";
     }
@@ -140,7 +140,7 @@
     if (self.type==2) {
         self.labelTime.text = [NSString stringWithFormat:@"%ld年%02ld月账单（%ld.1－%ld.%ld）",nyear,nmonth,nmonth,nmonth,[self getDayCountByMounth:nyear mounth:nmonth]] ;
         //self.labelTime.text = [NSString stringWithFormat:@"%ld年%02ld月账单",nyear,nmonth] ;
-        self.labelNoPaid.text = [NSString stringWithFormat:@"¥%.2f",(paidMoney+balance-sum)];
+        self.labelNoPaid.text = [NSString stringWithFormat:@"¥%.2f",(sum+balance)];
         self.labelPaid.text = [NSString stringWithFormat:@"¥%.2f",paidMoney];
         self.labelPaidMun.text = [NSString stringWithFormat:@"%ld项",[tableViewArray count]];
         [self.tableView reloadData];
@@ -249,7 +249,7 @@
     else if (self.type != 1) {
         NSDictionary *dic = tableViewArray[indexPath.row-1];
         cell.nameLabel.text = [dic[@"customerName"] safeString];
-        long time = [[dic[@"createTime"] safeString] longLongValue];
+        NSTimeInterval time = [[dic[@"createTime"] safeString] longLongValue];
         NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"YYYY-MM-dd"];
@@ -262,7 +262,7 @@
     {
         NSDictionary *dic = tableViewArray[indexPath.row-1];
         cell.nameLabel.text = [dic[@"customerName"] safeString];
-        long time = [[dic[@"publishTime"] safeString] longLongValue];
+        NSTimeInterval time = [[dic[@"publishTime"] safeString] longLongValue];
         NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"YYYY-MM-dd"];

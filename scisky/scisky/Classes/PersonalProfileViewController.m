@@ -11,12 +11,14 @@
 #import "MobileAPI.h"
 #import "UIImageView+WebCache.h"
 #import "UserManage.h"
+#import "PersonalDetailTableViewController.h"
 
 @interface PersonalProfileViewController ()<UITextFieldDelegate>
 @property (nonatomic,weak) IBOutlet UIImageView *headImageView;
 @property (nonatomic,weak) IBOutlet UILabel *nameLabel;
 @property (nonatomic,weak) IBOutlet UILabel *phoneLabel;
 @property (nonatomic,weak) IBOutlet UITableView *tabelView;
+@property (nonatomic,strong) NSDictionary *dicUpdateApply;
 @end
 
 @implementation PersonalProfileViewController
@@ -29,6 +31,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    //[self loadData];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [SSUIStyle RoundStyle:self.headImageView];
+    [self loadData];
+    [self updateUI];
+    [self.tabelView reloadData];
+}
+
+-(void)loadData
+{
     NSDictionary *dic = @{
                           @"id": [[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]
                           };
@@ -36,33 +52,26 @@
         NSLog(@"%@",responseObject);
         [MobileAPI saveUserImformatin:responseObject[@"data"]];
         [MobileAPI saveUserImformatin2:responseObject[@"data"]];
+        self.dicUpdateApply = responseObject[@"data"][@"updateApply"];
         [self updateUI];
         [self.tabelView reloadData];
+        //        if ([[responseObject[@"state"] safeString] integerValue] == 0) {
+        //
+        //        }
+        //        else if([[responseObject[@"state"] safeString] integerValue] == 3)
+        //        {
+        //            ;
+        //        }
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         ;
     }];
-    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Modify-data-Avatar"]];
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [SSUIStyle RoundStyle:self.headImageView];
-    [self updateUI];
-    [self.tabelView reloadData];
 }
 
 -(void)updateUI
 {
-    NSString *serveDistriceDesc = StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistriceDesc"]);
-    if ([[UserManage sharedManager].decs length]>0) {
-        if (![[UserManage sharedManager].decs isEqualToString:serveDistriceDesc]) {
-            serveDistriceDesc = [NSString stringWithFormat:@"%@(审核中)",[UserManage sharedManager].decs];
-        }
-    }
     
-    
-    long time = [[[NSUserDefaults standardUserDefaults] objectForKey:@"birthday"] longLongValue];
+    NSTimeInterval time = [[[NSUserDefaults standardUserDefaults] objectForKey:@"birthday"] longLongValue];
     NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY"];
@@ -70,10 +79,49 @@
     NSString *databirthday = [formatter stringFromDate:birthday];
     NSString *string = [NSString stringWithFormat:@"%ld",[dataNow integerValue] - [databirthday integerValue]];
     tableViewTitleArray = @[@"年龄",@"位置",@"服务区域",@"提供服务",@"施工经验"];
-    tableViewValueArray = @[string,StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"locationDesc"]),serveDistriceDesc,StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serviceDesc"]),StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"workExpDesc"])];
-    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"]]] placeholderImage:[UIImage imageNamed:@"Modify-data-Avatar"]];
+    
+    NSString *locationDesc = StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"locationDesc"]);
+    NSString *serveDistriceDesc = StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serveDistriceDesc"]);
+    NSString *serviceDesc = StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"serviceDesc"]);
+    NSString *workExpDesc = StringNoNull([[NSUserDefaults standardUserDefaults] objectForKey:@"workExpDesc"]);
+    
     self.nameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"nickname"];
     self.phoneLabel.text = [NSString stringWithFormat:@"账号：%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"]];
+    
+    NSString *headImage = [[NSUserDefaults standardUserDefaults] objectForKey:@"headimage"];
+    
+    
+    if (self.dicUpdateApply&&self.dicUpdateApply[@"state"]&&([[self.dicUpdateApply[@"state"] safeString] integerValue]==0)) {
+        self.title = @"个人资料（审核中）";
+        if (self.dicUpdateApply[@"headimage"]) {
+            headImage = [self.dicUpdateApply[@"headimage"] safeString];
+        }
+        
+        if (self.dicUpdateApply[@"nickname"]) {
+            self.nameLabel.text = [self.dicUpdateApply[@"nickname"] safeString];
+        }
+        
+        if ([[self.dicUpdateApply[@"location_desc"] safeString] length]>0) {
+            locationDesc = StringNoNull([self.dicUpdateApply[@"location_desc"] safeString]);
+        }
+        if ([[self.dicUpdateApply[@"serve_district_desc"] safeString] length]>0) {
+            serveDistriceDesc = StringNoNull([self.dicUpdateApply[@"serve_district_desc"] safeString]);
+        }
+        if ([[self.dicUpdateApply[@"service_desc"] safeString] length]>0) {
+            serviceDesc = StringNoNull([self.dicUpdateApply[@"service_desc"] safeString]);
+        }
+        if ([[self.dicUpdateApply[@"work_experience_desc"] safeString] length]>0) {
+            workExpDesc = StringNoNull([self.dicUpdateApply[@"work_experience_desc"] safeString]);
+        }
+        
+    }
+    else
+    {
+        self.title = @"个人资料";
+    }
+    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://123.57.213.239/sciskyResource/%@",headImage]] placeholderImage:[UIImage imageNamed:@"Modify-data-Avatar"]];
+    
+    tableViewValueArray = @[string,locationDesc,serveDistriceDesc,serviceDesc,workExpDesc];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -109,14 +157,19 @@
 }
 
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"modif"]) {
+        PersonalDetailTableViewController *vc = segue.destinationViewController;
+        vc.dicUpdateApply = self.dicUpdateApply;
+    }
+    
 }
-*/
+
 
 @end

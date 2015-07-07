@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface DoneViewController : UIViewController
-@property (nonatomic,weak) IBOutlet NSDictionary *dic;
+@property (nonatomic,strong) NSMutableDictionary *dic;
 @end

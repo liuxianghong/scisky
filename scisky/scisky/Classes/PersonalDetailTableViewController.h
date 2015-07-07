@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface PersonalDetailTableViewController : UITableViewController
-
+@property (nonatomic,strong) NSDictionary *dicUpdateApply;
 @end

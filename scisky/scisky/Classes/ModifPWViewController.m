@@ -9,6 +9,7 @@
 #import "ModifPWViewController.h"
 #import "MobileAPI.h"
 #import "MBProgressHUD.h"
+#import "IIViewDeckController.h"
 
 @interface ModifPWViewController ()<UITextFieldDelegate>
 @property (nonatomic,weak) IBOutlet UITextField *oldpwTf;
@@ -38,12 +39,22 @@
     [self.oldpwTf resignFirstResponder];
     [self.newpwTf resignFirstResponder];
     [self.reppwTf resignFirstResponder];
-    if(self.oldpwTf.text.length<1||self.newpwTf.text.length<1)
+    if(self.oldpwTf.text.length<1)
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
         //hud.dimBackground = YES;
         hud.mode = MBProgressHUDModeText;
-        hud.detailsLabelText = @"请输入新旧密码";
+        hud.detailsLabelText = @"请输入旧密码";
+        [hud hide:YES afterDelay:1.5f];
+        return;
+    }
+    
+    if(self.newpwTf.text.length<1)
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
+        //hud.dimBackground = YES;
+        hud.mode = MBProgressHUDModeText;
+        hud.detailsLabelText = @"请输入至少6位新密码";
         [hud hide:YES afterDelay:1.5f];
         return;
     }
@@ -52,7 +63,7 @@
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
         //hud.dimBackground = YES;
         hud.mode = MBProgressHUDModeText;
-        hud.detailsLabelText = @"密码长度至少6位";
+        hud.detailsLabelText = @"新密码长度至少6位";
         [hud hide:YES afterDelay:1.5f];
         return;
     }
@@ -80,10 +91,30 @@
         }
         else
         {
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"]) {
+                NSDictionary *dic = @{
+                                      @"loginname" : [[NSUserDefaults standardUserDefaults] objectForKey:@"loginname"]
+                                      };
+                [MobileAPI UserLogoutPassWordWithParameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    ;
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    ;
+                }];
+            }
+            
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+            UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
+            [self.navigationController presentViewController:loginVC animated:YES completion:nil];
+            
             hud.mode = MBProgressHUDModeText;
             hud.detailsLabelText = @"修改成功";
             [hud hide:YES afterDelay:1.5f];
-            [self.navigationController popViewControllerAnimated:YES];
+            [self.navigationController popViewControllerAnimated:NO];
+            [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"UID"];
+            NSNotification *notification =[NSNotification notificationWithName:@"logout" object:nil userInfo:nil];
+            //通过通知中心发送通知
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+            
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         hud.mode = MBProgressHUDModeText;

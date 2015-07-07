@@ -11,7 +11,7 @@
 #import "SeverChoiceTableViewController.h"
 #import "LocationTableViewController.h"
 
-@interface PerfectDataTableViewController ()
+@interface PerfectDataTableViewController ()<UITextFieldDelegate>
 @property (nonatomic,weak) IBOutlet UITextField *nameTf;
 @property (nonatomic,weak) IBOutlet UITextField *cardNoTf;
 @property (nonatomic,weak) IBOutlet UITextField *dateTf;
@@ -44,6 +44,8 @@
     NSMutableArray *serveDistrictArray;
     NSMutableArray *serviceIdsArray;
     NSMutableArray *workExpIdsArray;
+    
+    NSString *locationID;
     
 }
 
@@ -93,10 +95,14 @@
     
     
     self.location.text = locationDic[@"cityname"];
+    if (![locationID isEqualToString:[locationDic[@"id"] safeString]]) {
+        [serveDistrictArray removeAllObjects];
+        locationID = [locationDic[@"id"] safeString];
+    }
     
-    self.serveDistrict.text = [self getListString:serveDistrictArray byKey:@"name" count:2];
-    self.serviceIds.text = [self getListString:serviceIdsArray byKey:@"name" count:2];
-    self.workExpIds.text = [self getListString:workExpIdsArray byKey:@"name" count:2];
+    self.serveDistrict.text = [self getListString:serveDistrictArray byKey:@"name" count:1];
+    self.serviceIds.text = [self getListString:serviceIdsArray byKey:@"name" count:1];
+    self.workExpIds.text = [self getListString:workExpIdsArray byKey:@"name" count:1];
     
     //[self.tableView reloadData];
 }
@@ -195,14 +201,14 @@
         [self showHudToWarming:@"请输入工作年限"];
         return;
     }
-    if ([self.forntImageName length]<1) {
-        [self showHudToWarming:@"请上传身份证正面"];
-        return;
-    }
-    if ([self.backImageName length]<1) {
-        [self showHudToWarming:@"请上传身份证背面"];
-        return;
-    }
+//    if ([self.forntImageName length]<1) {
+//        [self showHudToWarming:@"请上传身份证正面"];
+//        return;
+//    }
+//    if ([self.backImageName length]<1) {
+//        [self showHudToWarming:@"请上传身份证背面"];
+//        return;
+//    }
     NSDictionary *dic = @{
                           @"loginname" : self.phoneNumber,
                           @"password" : self.passWord,
@@ -215,9 +221,9 @@
                           @"serviceIds" : [self getListString:serviceIdsArray byKey:@"id" count:0],
                           @"workExpIds" : [self getListString:workExpIdsArray byKey:@"id" count:0],
                           @"workLife" : self.workeYearTf.text,
-                          @"workLifeUnit" : @"3",
-                          @"idCardImgFront" : self.forntImageName,
-                          @"idCardImgBack" : self.backImageName
+                          @"workLifeUnit" : @"3"
+//                          @"idCardImgFront" : self.forntImageName,
+//                          @"idCardImgBack" : self.backImageName
                           };
 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view.window animated:YES];
@@ -231,7 +237,11 @@
         }
         else
         {
-            hud.detailsLabelText = @"注册失败";
+            if ([[responseObject[@"state"] safeString] integerValue]==2) {
+                hud.detailsLabelText = @"该身份证已经被注册";
+            }
+            else
+                hud.detailsLabelText = @"注册失败";
         }
         hud.mode = MBProgressHUDModeText;
         [hud hide:YES afterDelay:1.5f];
@@ -261,6 +271,12 @@
     imageViewCurrent = self.imageViewBack;
     [self chooseApproveImage];
 }
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
 #pragma mark - Table view data source
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -273,6 +289,11 @@
     }
     else
         return 45;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 10;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

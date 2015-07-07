@@ -20,6 +20,7 @@
 @property (nonatomic,weak) IBOutlet UILabel *serviceDistrictLabel;
 
 @property (nonatomic,weak) IBOutlet UILabel *serviceItemsLabel;
+@property (nonatomic,weak) IBOutlet UILabel *customerNameLabel;
 @property (nonatomic,weak) IBOutlet UILabel *customerPhoneLabel;
 @property (nonatomic,weak) IBOutlet UILabel *serviceContentLabel;
 
@@ -53,15 +54,33 @@
     [self.tableView.tableFooterView setFrame:tableViewHeaderRect];
     self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(phoneCall)];
+    self.customerPhoneLabel.userInteractionEnabled = YES;
+    tapGestureRecognizer.cancelsTouchesInView = YES;
+    [self.customerPhoneLabel addGestureRecognizer:tapGestureRecognizer];
+    
+    [self updateUI];
+    [self.tableView reloadData];
+    imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Order-details-bottom-frame"]];
+    [self.tableView addSubview:imageView];
+    [self.tableView sendSubviewToBack:imageView];
+}
+
+-(void)updateUI
+{
     self.orderCodeLabel.text = StringNoNull([self.dic[@"orderCode"] safeString]);
     
     //self.labelTitle.text = StringNoNull(dic[@"customerName"]);
     
-    long time = [[self.dic[@"publishTime"] safeString] longLongValue];
-    NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
+    NSTimeInterval time = [[self.dic[@"publishTime"] safeString] longLongValue];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"YYYY-MM-dd HH:mm"];
-    NSString *databirthday = [formatter stringFromDate:birthday];
+    NSString *databirthday = @" ";
+    if (time) {
+        NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000.0];
+        databirthday = [formatter stringFromDate:birthday];
+    }
+    
     self.publishTimeLabel.text = StringNoNull(databirthday);
     NSInteger type = [[self.dic[@"orderStatus"] safeString] integerValue];
     NSString *status =  type==0?@"新创建":(type == 1?@"待服务":(type==2?@"已完成":@"已取消"));
@@ -77,21 +96,23 @@
     self.orderStatusLabel.text = StringNoNull(status);
     self.serviceDistrictLabel.text = StringNoNull([self.dic[@"serviceDistrictString"] safeString]);
     
-    self.serviceItemsLabel.text = StringNoNull([self.dic[@"serviceItemString "] safeString]);
+    self.serviceItemsLabel.text = StringNoNull([self.dic[@"serviceItemString"] safeString]);
     self.title = [self.dic[@"customerName"] safeString];
     [SSUIStyle LabelAttributedTitle:self.customerPhoneLabel title:StringNoNull([self.dic[@"customerPhone"] safeString])];
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(phoneCall)];
-    self.customerPhoneLabel.userInteractionEnabled = YES;
-    tapGestureRecognizer.cancelsTouchesInView = YES;
-    [self.customerPhoneLabel addGestureRecognizer:tapGestureRecognizer];
-    //self.customerPhoneLabel.text = StringNoNull([self.dic[@"customerPhone"] safeString]);
+    
+    
+    self.customerNameLabel.text = StringNoNull([self.dic[@"customerName"] safeString]);
     self.serviceContentLabel.text = StringNoNull([self.dic[@"serviceContent"] safeString]);
     
     self.orderPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",[[self.dic[@"orderPrice"] safeString] doubleValue]];
     time = [[self.dic[@"serviceStarttime"] safeString] longLongValue];
-    birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
-    [formatter setDateFormat:@"YYYY-MM-dd"];
-    databirthday = [formatter stringFromDate:birthday];
+    databirthday = @" ";
+    if(time)
+    {
+        NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
+        databirthday = [formatter stringFromDate:birthday];
+    }
+    
     self.orderPaidLabel.text = StringNoNull(databirthday);
     [SSUIStyle LabelAttributedTitle:self.agencyNameLabel title:StringNoNull([self.dic[@"agencyName"] safeString])];
     self.remarkLabel.text = StringNoNull([self.dic[@"remark"] safeString]);
@@ -102,14 +123,7 @@
     {
         self.changeButton.hidden = YES;
     }
-    
-    
-    [self.tableView reloadData];
-    imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Order-details-bottom-frame"]];
-    [self.tableView addSubview:imageView];
-    [self.tableView sendSubviewToBack:imageView];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -119,8 +133,10 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    imageView.frame =  CGRectMake(10, 10, self.tableView.width-20, self.tableView.contentSize.height-10);//CGRectInset(self.tableView.bounds, 10, 10);
+    //CGRectInset(self.tableView.bounds, 10, 10);
+    [self updateUI];
     [self.tableView reloadData];
+    imageView.frame =  CGRectMake(10, 10, self.tableView.width-20, self.tableView.contentSize.height-10);
 }
 
 
@@ -161,6 +177,7 @@
             hud.mode = MBProgressHUDModeText;
             hud.detailsLabelText = @"请输入金额";
             [hud hide:YES afterDelay:1.5f];
+            return;
         }
         
         double price = [field.text doubleValue];
@@ -174,6 +191,7 @@
             if([[responseObject[@"state"] safeString] integerValue]==0)
             {
                 hud.detailsLabelText = @"操作成功";
+                [self.dic setObject:[NSString stringWithFormat:@"%.2f",price] forKey:@"orderPrice"];
                 self.orderPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",price];
             }
             else
@@ -201,8 +219,8 @@
     {
         self.serviceContentLabel.translatesAutoresizingMaskIntoConstraints = NO;
         CGSize size = [self.serviceContentLabel.text calculateSize:CGSizeMake(self.view.width-23-119, FLT_MAX) font:self.serviceContentLabel.font];
-        CGFloat height = 51+11+size.height;
-        return height>79?height:79;
+        CGFloat height = 74+11+size.height;
+        return height>104?height:104;
     }
     else if(indexPath.row==2)
     {

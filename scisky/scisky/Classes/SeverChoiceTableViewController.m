@@ -40,21 +40,24 @@
                               };
         [MobileAPI GetDistrictByParentIdWithParameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"%@",responseObject);
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                SeverChoiceModel *model = [[SeverChoiceModel alloc]init];
-                model.name = [dic[@"cityname"] safeString];
-                model.modelID = [dic[@"id"] safeString];
-                model.checked = NO;
-                for (NSDictionary *dic in self.array) {
-                    if ([[dic[@"id"] safeString] isEqualToString:model.modelID]) {
-                        model.checked = YES;
-                        break;
+            if ([[responseObject[@"state"] safeString] integerValue]==0) {
+                for (NSDictionary *dic in responseObject[@"data"]) {
+                    SeverChoiceModel *model = [[SeverChoiceModel alloc]init];
+                    model.name = [dic[@"cityname"] safeString];
+                    model.modelID = [dic[@"id"] safeString];
+                    model.checked = NO;
+                    for (NSDictionary *dic in self.array) {
+                        if ([[dic[@"id"] safeString] isEqualToString:model.modelID]) {
+                            model.checked = YES;
+                            break;
+                        }
                     }
+                    
+                    [tableViewArray addObject:model];
+                    [self.tableView reloadData];
                 }
-                
-                [tableViewArray addObject:model];
-                [self.tableView reloadData];
             }
+            
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             ;
         }];

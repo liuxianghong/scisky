@@ -20,16 +20,16 @@
     // Configure the view for the selected state
 }
 
--(void)setData:(NSDictionary *)dic
+-(void)setData:(NSMutableDictionary *)dic
 {
     self.dic = dic;
     self.labelTitle.text = StringNoNull(dic[@"customerName"]);
     
     self.labelOrderNo.text = StringNoNull(dic[@"orderCode"]);
-    long time = [[dic[@"publishTime"] safeString] longLongValue];
+    NSTimeInterval time = [[dic[@"publishTime"] safeString] longLongValue];
     NSDate *birthday = [NSDate dateWithTimeIntervalSince1970:time/1000];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"YYYY-MM-DD HH:mm"];
+    [formatter setDateFormat:@"YYYY-MM-dd HH:mm"];
     NSString *databirthday = [formatter stringFromDate:birthday];
     self.labelTime.text = StringNoNull(databirthday);
     NSInteger type = [[dic[@"orderStatus"] safeString] integerValue];
