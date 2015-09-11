@@ -19,6 +19,9 @@
 @end
 
 @implementation LoginViewController
+{
+    BOOL first;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,7 +38,22 @@
     
 //    self.textFiledPhone.text = @"18175152488";
 //    self.textFiledPassWord.text = @"111111";
-    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"loginloginName"] length]>0&&[[[NSUserDefaults standardUserDefaults] objectForKey:@"loginpassword"] length]>0) {
+        self.textFiledPhone.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"loginloginName"];
+        self.textFiledPassWord.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"loginpassword"];
+    }
+    first = YES;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (first) {
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"loginloginName"] length]>0&&[[[NSUserDefaults standardUserDefaults] objectForKey:@"loginpassword"] length]>0) {
+            [self loginClick:nil];
+        }
+        first = NO;
+    }
 }
 
 -(void)keyboardHide:(UITapGestureRecognizer*)tap{
@@ -101,6 +119,9 @@
             hud.detailsLabelText = @"登陆成功";
             [hud hide:YES];
             [MobileAPI saveUserImformatin:responseObject[@"data"]];
+            [[NSUserDefaults standardUserDefaults]setObject:loginName forKey:@"loginloginName"];
+            [[NSUserDefaults standardUserDefaults]setObject:password forKey:@"loginpassword"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             [self dismissViewControllerAnimated:YES completion:nil];
         }
         else if([responseObject[@"state"] integerValue]==1)
@@ -115,6 +136,13 @@
             hud.mode = MBProgressHUDModeText;
             hud.labelText = @"提示";
             hud.detailsLabelText = @"用户名错误，请重新输入";
+            [hud hide:YES afterDelay:1.5f];
+        }
+        else if([responseObject[@"state"] integerValue]==4)
+        {
+            hud.mode = MBProgressHUDModeText;
+            hud.labelText = @"提示";
+            hud.detailsLabelText = @"账户还没有审核，请收到审核通知后再登录";
             [hud hide:YES afterDelay:1.5f];
         }
         else

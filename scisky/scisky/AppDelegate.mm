@@ -103,6 +103,9 @@ BMKMapManager* _mapManager;
     UIAlertView *aview = [[UIAlertView alloc] initWithTitle:@"通知" message:str delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil];
     [aview show];
     [UMessage didReceiveRemoteNotification:userInfo];
+    NSNotification *notification =[NSNotification notificationWithName:@"receiveRemoteNotification" object:nil userInfo:nil];
+    //通过通知中心发送通知
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -208,6 +208,9 @@
             //[self.dic setValue:@"2" forKey:@"orderStatus"];
             hud.detailsLabelText = @"操作成功";
             [self.navigationController popViewControllerAnimated:YES];
+            NSNotification *notification =[NSNotification notificationWithName:@"orderCancel" object:nil userInfo:nil];
+            //通过通知中心发送通知
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
         }
         else
         {

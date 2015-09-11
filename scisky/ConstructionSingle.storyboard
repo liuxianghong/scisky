@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -2081,7 +2081,7 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oe3-xj-NFS">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
-                                <state key="normal" title="服務完成" backgroundImage="Button-feedback-normal.png">
+                                <state key="normal" title="服务完成" backgroundImage="Button-feedback-normal.png">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -2160,19 +2160,33 @@
                                     </mask>
                                 </variation>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hGU-o4-Zjg">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <string key="text">若服务已完成，请点击“发送验证码”，系统会自动发送“完成服务验证码”到客户手机。
+
+您需要输入该验证码以完成该订单。</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="Oe3-xj-NFS" firstAttribute="leading" secondItem="lLG-hB-Pgh" secondAttribute="leading" constant="16" id="BPq-12-Wri"/>
+                            <constraint firstItem="Oe3-xj-NFS" firstAttribute="leading" secondItem="lLG-hB-Pgh" secondAttribute="leading" constant="16" id="DBa-rz-ISe"/>
                             <constraint firstItem="am9-W8-yqH" firstAttribute="top" secondItem="2IR-l9-mwK" secondAttribute="bottom" constant="20" id="F0F-a7-rRZ"/>
-                            <constraint firstItem="Oe3-xj-NFS" firstAttribute="top" secondItem="9mp-di-e71" secondAttribute="bottom" constant="60" id="G79-ta-DdK"/>
+                            <constraint firstAttribute="trailing" secondItem="Oe3-xj-NFS" secondAttribute="trailing" constant="16" id="FI1-yo-hkg"/>
                             <constraint firstItem="lpk-iK-McW" firstAttribute="top" secondItem="2IR-l9-mwK" secondAttribute="bottom" constant="26" id="LpA-Nm-Wxe"/>
                             <constraint firstAttribute="trailing" secondItem="am9-W8-yqH" secondAttribute="trailing" constant="15" id="Pzu-tU-2A6"/>
+                            <constraint firstItem="hGU-o4-Zjg" firstAttribute="leading" secondItem="lLG-hB-Pgh" secondAttribute="leading" constant="16" id="Rz2-mi-ypE"/>
                             <constraint firstItem="9mp-di-e71" firstAttribute="leading" secondItem="lpk-iK-McW" secondAttribute="trailing" id="YRR-9V-JE3"/>
                             <constraint firstAttribute="trailing" secondItem="9mp-di-e71" secondAttribute="trailing" constant="15" id="dVk-tN-ZO4"/>
+                            <constraint firstItem="hGU-o4-Zjg" firstAttribute="top" secondItem="9mp-di-e71" secondAttribute="bottom" constant="8" id="fhn-Hz-Pq7"/>
                             <constraint firstItem="am9-W8-yqH" firstAttribute="leading" secondItem="lLG-hB-Pgh" secondAttribute="leading" constant="15" id="ntt-cF-k1G"/>
                             <constraint firstItem="9mp-di-e71" firstAttribute="top" secondItem="2IR-l9-mwK" secondAttribute="bottom" constant="20" id="q8a-X9-dWC"/>
-                            <constraint firstAttribute="trailing" secondItem="Oe3-xj-NFS" secondAttribute="trailing" constant="16" id="yXP-Wj-STc"/>
+                            <constraint firstItem="Oe3-xj-NFS" firstAttribute="top" secondItem="hGU-o4-Zjg" secondAttribute="bottom" constant="46" id="wiI-Ro-DQ1">
+                                <variation key="heightClass=regular-widthClass=compact" constant="28"/>
+                            </constraint>
+                            <constraint firstAttribute="trailing" secondItem="hGU-o4-Zjg" secondAttribute="trailing" constant="16" id="wrN-WW-kxv"/>
                         </constraints>
                         <variation key="default">
                             <mask key="subviews">
@@ -2180,17 +2194,21 @@
                                 <exclude reference="am9-W8-yqH"/>
                                 <exclude reference="9mp-di-e71"/>
                                 <exclude reference="lpk-iK-McW"/>
+                                <exclude reference="hGU-o4-Zjg"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="F0F-a7-rRZ"/>
                                 <exclude reference="Pzu-tU-2A6"/>
                                 <exclude reference="ntt-cF-k1G"/>
+                                <exclude reference="Rz2-mi-ypE"/>
+                                <exclude reference="fhn-Hz-Pq7"/>
+                                <exclude reference="wrN-WW-kxv"/>
                                 <exclude reference="YRR-9V-JE3"/>
                                 <exclude reference="dVk-tN-ZO4"/>
                                 <exclude reference="q8a-X9-dWC"/>
-                                <exclude reference="BPq-12-Wri"/>
-                                <exclude reference="G79-ta-DdK"/>
-                                <exclude reference="yXP-Wj-STc"/>
+                                <exclude reference="DBa-rz-ISe"/>
+                                <exclude reference="FI1-yo-hkg"/>
+                                <exclude reference="wiI-Ro-DQ1"/>
                                 <exclude reference="LpA-Nm-Wxe"/>
                             </mask>
                         </variation>
@@ -2200,17 +2218,21 @@
                                 <include reference="am9-W8-yqH"/>
                                 <include reference="9mp-di-e71"/>
                                 <include reference="lpk-iK-McW"/>
+                                <include reference="hGU-o4-Zjg"/>
                             </mask>
                             <mask key="constraints">
                                 <include reference="F0F-a7-rRZ"/>
                                 <include reference="Pzu-tU-2A6"/>
                                 <include reference="ntt-cF-k1G"/>
+                                <include reference="Rz2-mi-ypE"/>
+                                <include reference="fhn-Hz-Pq7"/>
+                                <include reference="wrN-WW-kxv"/>
                                 <include reference="YRR-9V-JE3"/>
                                 <include reference="dVk-tN-ZO4"/>
                                 <include reference="q8a-X9-dWC"/>
-                                <include reference="BPq-12-Wri"/>
-                                <include reference="G79-ta-DdK"/>
-                                <include reference="yXP-Wj-STc"/>
+                                <include reference="DBa-rz-ISe"/>
+                                <include reference="FI1-yo-hkg"/>
+                                <include reference="wiI-Ro-DQ1"/>
                                 <include reference="LpA-Nm-Wxe"/>
                             </mask>
                         </variation>

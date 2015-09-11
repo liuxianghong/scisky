@@ -193,6 +193,9 @@
                 hud.detailsLabelText = @"操作成功";
                 [self.dic setObject:[NSString stringWithFormat:@"%.2f",price] forKey:@"orderPrice"];
                 self.orderPriceLabel.text = [NSString stringWithFormat:@"¥%.2f",price];
+                NSNotification *notification =[NSNotification notificationWithName:@"orderCancel" object:nil userInfo:nil];
+                //通过通知中心发送通知
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
             }
             else
             {

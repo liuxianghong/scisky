@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -45,6 +45,9 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="n6H-Li-2tb">
                                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="124" y="158" width="154" height="109"/>
+                                </variation>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用科天账号登录" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NcH-Dw-aeW">
                                 <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
@@ -235,7 +238,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fyn-KR-itg">
                                 <rect key="frame" x="-23" y="-15" width="46" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <state key="normal" title="注册账号">
+                                <state key="normal" title="申请服务商">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1148,7 +1151,7 @@
             </objects>
             <point key="canvasLocation" x="-1983" y="648.75"/>
         </scene>
-        <!--注册-->
+        <!--申请服务商-->
         <scene sceneID="IR0-Ri-p3N">
             <objects>
                 <tableViewController id="1Ab-gM-DdS" customClass="RegisterViewController" sceneMemberID="viewController">
@@ -1222,15 +1225,24 @@
                                         <segue destination="lYi-S0-rZW" kind="show" id="M6G-bB-Jw4"/>
                                     </connections>
                                 </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="账号申请后，审核结果会在1个工作日内以短信通知的方式发送给您。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ENq-c2-xUd">
+                                    <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.50196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
+                                <constraint firstAttribute="trailing" secondItem="ENq-c2-xUd" secondAttribute="trailing" constant="15" id="2lG-5v-Ctg"/>
                                 <constraint firstItem="Eh2-Vm-ahC" firstAttribute="leading" secondItem="yyn-EE-Nxn" secondAttribute="trailing" id="3rr-TB-hlg"/>
                                 <constraint firstItem="Eh2-Vm-ahC" firstAttribute="centerY" secondItem="yyn-EE-Nxn" secondAttribute="centerY" id="4N6-ix-Ma7"/>
                                 <constraint firstAttribute="trailing" secondItem="5re-sH-Yke" secondAttribute="trailing" constant="15" id="JAk-4D-kKS"/>
                                 <constraint firstItem="yyn-EE-Nxn" firstAttribute="leading" secondItem="WBy-Fe-m3h" secondAttribute="leading" constant="16" id="Mp1-VA-WXc"/>
+                                <constraint firstItem="ENq-c2-xUd" firstAttribute="top" secondItem="5re-sH-Yke" secondAttribute="bottom" constant="15" id="Qgi-A3-EG8"/>
                                 <constraint firstItem="5re-sH-Yke" firstAttribute="top" secondItem="yyn-EE-Nxn" secondAttribute="bottom" constant="20" id="cNE-OR-VcC"/>
                                 <constraint firstItem="5re-sH-Yke" firstAttribute="leading" secondItem="WBy-Fe-m3h" secondAttribute="leading" constant="15" id="hGy-xK-3p6"/>
+                                <constraint firstItem="ENq-c2-xUd" firstAttribute="leading" secondItem="WBy-Fe-m3h" secondAttribute="leading" constant="15" id="koh-cE-tWg"/>
                                 <constraint firstItem="yyn-EE-Nxn" firstAttribute="top" secondItem="WBy-Fe-m3h" secondAttribute="top" constant="8" id="mSa-X3-SGl"/>
                             </constraints>
                             <variation key="default">
@@ -1238,8 +1250,12 @@
                                     <exclude reference="5re-sH-Yke"/>
                                     <exclude reference="yyn-EE-Nxn"/>
                                     <exclude reference="Eh2-Vm-ahC"/>
+                                    <exclude reference="ENq-c2-xUd"/>
                                 </mask>
                                 <mask key="constraints">
+                                    <exclude reference="2lG-5v-Ctg"/>
+                                    <exclude reference="Qgi-A3-EG8"/>
+                                    <exclude reference="koh-cE-tWg"/>
                                     <exclude reference="Mp1-VA-WXc"/>
                                     <exclude reference="mSa-X3-SGl"/>
                                     <exclude reference="JAk-4D-kKS"/>
@@ -1254,8 +1270,12 @@
                                     <include reference="5re-sH-Yke"/>
                                     <include reference="yyn-EE-Nxn"/>
                                     <include reference="Eh2-Vm-ahC"/>
+                                    <include reference="ENq-c2-xUd"/>
                                 </mask>
                                 <mask key="constraints">
+                                    <include reference="2lG-5v-Ctg"/>
+                                    <include reference="Qgi-A3-EG8"/>
+                                    <include reference="koh-cE-tWg"/>
                                     <include reference="Mp1-VA-WXc"/>
                                     <include reference="mSa-X3-SGl"/>
                                     <include reference="JAk-4D-kKS"/>
@@ -1269,7 +1289,7 @@
                         <sections>
                             <tableViewSection id="cTz-I5-bvM">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="vyn-c2-tUP">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="55" id="vyn-c2-tUP">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vyn-c2-tUP" id="Loc-tg-Nbb">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1278,6 +1298,9 @@
                                                     <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="1Ab-gM-DdS" id="fpq-Io-bec"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -1311,7 +1334,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="eDi-gm-Oce">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="55" id="eDi-gm-Oce">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eDi-gm-Oce" id="d6P-r1-wiX">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1333,6 +1356,9 @@
                                                             <exclude reference="e5V-2M-5ob"/>
                                                         </mask>
                                                     </variation>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="1Ab-gM-DdS" id="uRT-yl-Gmq"/>
+                                                    </connections>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="72E-RN-PoY">
                                                     <rect key="frame" x="-23" y="-15" width="46" height="30"/>
@@ -1444,7 +1470,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="he7-I7-wYR">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="55" id="he7-I7-wYR">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="he7-I7-wYR" id="QaX-j6-f5w">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1453,6 +1479,9 @@
                                                     <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="1Ab-gM-DdS" id="Ngr-td-akN"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -1486,7 +1515,7 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="60" id="aZ3-M5-7yF">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" rowHeight="55" id="aZ3-M5-7yF">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aZ3-M5-7yF" id="2Pr-Ds-4Nr">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -1495,6 +1524,9 @@
                                                     <rect key="frame" x="0.0" y="-30" width="97" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="1Ab-gM-DdS" id="hAa-Wg-lGe"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>
@@ -1536,7 +1568,7 @@
                             <outlet property="delegate" destination="1Ab-gM-DdS" id="21u-yQ-rvK"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="注册" id="yB5-c9-WYg">
+                    <navigationItem key="navigationItem" title="申请服务商" id="yB5-c9-WYg">
                         <barButtonItem key="leftBarButtonItem" image="Icon-feedback-return.png" id="uX0-Yf-9Dh">
                             <connections>
                                 <action selector="backClick:" destination="1Ab-gM-DdS" id="GlS-Qr-naH"/>
@@ -2582,7 +2614,7 @@
             </objects>
             <point key="canvasLocation" x="1900.5" y="636"/>
         </scene>
-        <!--使用条款-->
+        <!--科天App服务使用条款-->
         <scene sceneID="gxf-5E-Ccm">
             <objects>
                 <viewController storyboardIdentifier="ketianxieyi" id="lYi-S0-rZW" customClass="ServiceProtocolViewController" sceneMemberID="viewController">
@@ -2599,8 +2631,7 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rwA-ea-Vdt">
                                         <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                        <string key="text">科天App服务使用条款
-一、服务条款的确认和接纳
+                                        <string key="text">一、服务条款的确认和接纳
 科天App平台涉及的产品、相关软件的所有权和运作权归兰州科天环保节能科技有限公司所有，用户通过本网站注册程序，勾选“我已经阅读并同意以下条款，提交注册信息”，即表示用户与兰州科天环保节能科技有限公司已达成协议，自愿接受本服务条款的所有内容和相关使用流程。
 二、用户账户的安全性
 1.	用户一旦注册成功，成为科天App平台的用户，将得到一个用户名和密码，并有权利使用自己的用户名及密码随时登陆科天App平台。
@@ -2736,7 +2767,7 @@ o	(6) 用户使用科天App平台服务时提供的银行账户信息，科天Ap
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="使用条款" id="Xlg-6R-7Tc">
+                    <navigationItem key="navigationItem" title="科天App服务使用条款" id="Xlg-6R-7Tc">
                         <barButtonItem key="leftBarButtonItem" image="Icon-feedback-return.png" id="rY1-dg-qvJ">
                             <connections>
                                 <action selector="backClick:" destination="lYi-S0-rZW" id="qkc-gb-LLp"/>
@@ -2746,9 +2777,9 @@ o	(6) 用户使用科天App平台服务时提供的银行账户信息，科天Ap
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tIX-rD-RMP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="672" y="978.75"/>
+            <point key="canvasLocation" x="672" y="988.5"/>
         </scene>
-        <!--关于APP-->
+        <!--科天APP关于我们-->
         <scene sceneID="1lm-NE-hTJ">
             <objects>
                 <viewController storyboardIdentifier="b2bapp" id="gHY-xI-G7y" customClass="ServiceProtocolViewController" sceneMemberID="viewController">
@@ -2782,8 +2813,7 @@ o	(6) 用户使用科天App平台服务时提供的银行账户信息，科天Ap
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hZO-qZ-KwA">
                                         <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
-                                        <string key="text">科天APP关于我们
-水性科天APP是由“兰州科天环保节能科技有限公司”开发，一款专门为通过科天认证的装修师傅提供接收服务订单的手机应用。
+                                        <string key="text">水性科天APP是由“兰州科天环保节能科技有限公司”开发，一款专门为通过科天认证的装修师傅提供接收服务订单的手机应用。
 
 水性科天APP为装修师傅量身定做，让装修师傅可以足不出户通过APP轻松快捷的接揽装修生意，帮助其增加收入来源。同时APP提供推荐服务功能，装修师傅可以通过推荐客户购买科天产品来获得佣金，将装修师傅的个人资源最大化利用，进一步提供收入空间。
 
@@ -2903,7 +2933,7 @@ o	(6) 用户使用科天App平台服务时提供的银行账户信息，科天Ap
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="关于APP" id="rqB-kK-5Wq">
+                    <navigationItem key="navigationItem" title="科天APP关于我们" id="rqB-kK-5Wq">
                         <barButtonItem key="leftBarButtonItem" image="Icon-feedback-return.png" id="NVg-C9-mT5">
                             <connections>
                                 <action selector="backClick:" destination="gHY-xI-G7y" id="sfe-8G-J65"/>
@@ -2915,8 +2945,81 @@ o	(6) 用户使用科天App平台服务时提供的银行账户信息，科天Ap
             </objects>
             <point key="canvasLocation" x="1411.5" y="1296.75"/>
         </scene>
+        <!--使用说明-->
+        <scene sceneID="gw4-4h-IvM">
+            <objects>
+                <tableViewController storyboardIdentifier="usesay" id="2fn-4k-sOB" customClass="UserSayTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="600" sectionHeaderHeight="22" sectionFooterHeight="22" id="z3n-j9-8he">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="UserSay" rowHeight="600" id="hda-aB-tYJ" customClass="UserSayTableViewCell">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hda-aB-tYJ" id="VCn-Xw-tAE">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="8xm-Kf-s9L">
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="8xm-Kf-s9L" firstAttribute="leading" secondItem="VCn-Xw-tAE" secondAttribute="leading" constant="15" id="L3O-3E-Cfn"/>
+                                        <constraint firstItem="8xm-Kf-s9L" firstAttribute="top" secondItem="VCn-Xw-tAE" secondAttribute="top" constant="3" id="ZLu-s2-XsY"/>
+                                        <constraint firstAttribute="bottom" secondItem="8xm-Kf-s9L" secondAttribute="bottom" constant="3" id="daf-ee-cBJ"/>
+                                        <constraint firstAttribute="centerX" secondItem="8xm-Kf-s9L" secondAttribute="centerX" id="mjb-jS-4c9"/>
+                                        <constraint firstAttribute="centerY" secondItem="8xm-Kf-s9L" secondAttribute="centerY" id="pzT-QP-FCE"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="subviews">
+                                            <exclude reference="8xm-Kf-s9L"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <exclude reference="L3O-3E-Cfn"/>
+                                            <exclude reference="ZLu-s2-XsY"/>
+                                            <exclude reference="daf-ee-cBJ"/>
+                                            <exclude reference="mjb-jS-4c9"/>
+                                            <exclude reference="pzT-QP-FCE"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="heightClass=regular-widthClass=compact">
+                                        <mask key="subviews">
+                                            <include reference="8xm-Kf-s9L"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <include reference="L3O-3E-Cfn"/>
+                                            <include reference="ZLu-s2-XsY"/>
+                                            <include reference="daf-ee-cBJ"/>
+                                            <include reference="mjb-jS-4c9"/>
+                                            <include reference="pzT-QP-FCE"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="imageViewS" destination="8xm-Kf-s9L" id="uyY-AM-3Wp"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="2fn-4k-sOB" id="FkI-HB-xya"/>
+                            <outlet property="delegate" destination="2fn-4k-sOB" id="l5f-fk-uW2"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="使用说明" id="jHk-ty-yD9">
+                        <barButtonItem key="leftBarButtonItem" image="Icon-feedback-return.png" id="4Jl-ap-r32">
+                            <connections>
+                                <action selector="backClick:" destination="2fn-4k-sOB" id="D8H-pe-EVM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KlW-An-sBS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="325.5" y="1644.75"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="1.jpg" width="371" height="734"/>
         <image name="Button-feedback-Click.png" width="300" height="39"/>
         <image name="Button-feedback-normal.png" width="300" height="39"/>
         <image name="Button-perfect-data-gender-Click.png" width="21" height="21"/>

@@ -13,19 +13,24 @@
 @end
 
 @implementation MainViewController
+{
+    BOOL first;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    first = YES;
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]) {
+    if (first) {//![[NSUserDefaults standardUserDefaults] objectForKey:@"UID"]
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
         UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];
         [self presentViewController:loginVC animated:NO completion:nil];
+        first = NO;
     }
 }
 

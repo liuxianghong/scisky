@@ -230,6 +230,9 @@
                     hud.detailsLabelText = @"登陆成功";
                     [hud hide:YES afterDelay:0.2f];
                     [MobileAPI saveUserImformatin:responseObject[@"data"]];
+                    [[NSUserDefaults standardUserDefaults]setObject:self.phoneTextField.text forKey:@"loginloginName"];
+                    [[NSUserDefaults standardUserDefaults]setObject:self.passwordTextField.text forKey:@"loginpassword"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
                     [self dismissViewControllerAnimated:YES completion:nil];
                 }
                 else

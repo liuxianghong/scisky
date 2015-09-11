@@ -71,7 +71,9 @@
         
     }
     else if (indexPath.row==1) {
-        ;
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
+        UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"usesay"];
+        [self.viewDeckController.theNavigationController pushViewController:loginVC animated:YES];
     }
     else if (indexPath.row==2) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
@@ -113,6 +115,9 @@
             }];
         }
         [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"UID"];
+        [[NSUserDefaults standardUserDefaults]setObject:nil forKey:@"loginloginName"];
+        [[NSUserDefaults standardUserDefaults]setObject:nil forKey:@"loginpassword"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         [UserManage sharedManager].decs = nil;
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Login" bundle:nil];
         UIViewController *loginVC = [storyboard instantiateViewControllerWithIdentifier:@"LoginVC"];

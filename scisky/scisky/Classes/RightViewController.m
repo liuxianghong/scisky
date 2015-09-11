@@ -53,6 +53,8 @@
     constructionSingle = @"0";
     isupdate = NO;
     self.viewDeckController.delegate = self;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orderCountUpdate) name:@"orderCountUpdate" object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -66,6 +68,11 @@
     [SSUIStyle RoundStyle:self.headImage];
     
     [self getUserStatistics];
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)viewDeckController:(IIViewDeckController *)viewDeckController willOpenViewSide:(IIViewDeckSide)viewDeckSide animated:(BOOL)animated
@@ -110,6 +117,11 @@
             isupdate = NO;
         }];
     }
+}
+
+-(void)orderCountUpdate
+{
+    [self.tableView reloadData];
 }
 
 -(void)ShowConstructionSingle:(UITapGestureRecognizer*)tap{

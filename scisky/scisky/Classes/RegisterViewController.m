@@ -10,7 +10,7 @@
 #import "PerfectDataTableViewController.h"
 #import "MobileAPI.h"
 
-@interface RegisterViewController ()
+@interface RegisterViewController ()<UITextFieldDelegate>
 @property (nonatomic,weak) IBOutlet UITextField *phoneTf;
 @property (nonatomic,weak) IBOutlet UITextField *codeTf;
 @property (nonatomic,weak) IBOutlet UITextField *pwTf;
@@ -37,7 +37,7 @@
     [self.tableView.tableHeaderView setFrame:tableViewHeaderRect];
     
     CGRect tableViewFooterRect = self.tableView.tableFooterView.frame;
-    tableViewFooterRect.size.height = 78.0f+10;
+    tableViewFooterRect.size.height = 140.0f+10;
     [self.tableView.tableFooterView setFrame:tableViewFooterRect];
     
     [SSUIStyle ButtonAttributedTitle:self.btnSeeFile title:@"水性科天用户服务协议"];
@@ -225,6 +225,11 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

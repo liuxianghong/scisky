@@ -12,6 +12,7 @@
 #import "LocationTableViewCell.h"
 #import "MobileAPI.h"
 #import "BaiduMapAPI/BMKGeocodeSearch.h"
+#import "NSString+PinYinUtil.h"
 
 @interface LocationTableViewController () <CLLocationManagerDelegate,UITableViewDataSource,UITableViewDelegate,BMKGeoCodeSearchDelegate>
 @property (nonatomic,weak) IBOutlet UILabel *cityLabel;
@@ -31,6 +32,9 @@
     BOOL first;
     NSArray *tableArray;
     NSMutableArray *tablehotArray;
+    
+    NSMutableDictionary *abcDic;
+    NSMutableArray *abcArray;
 }
 
 - (void)viewDidLoad {
@@ -46,6 +50,11 @@
     self.tableView.tableFooterView = [UIView new];
     self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
+    self.tableView.sectionIndexColor = [UIColor darkGrayColor];
+    //改变索引选中的背景颜色
+    self.tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+    //self.tableView.sec
+    
     __weak typeof(self) wself = self;
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
         typeof(self) sself = wself;
@@ -54,6 +63,9 @@
     first = YES;
     tablehotArray = [[NSMutableArray alloc]init];
     self.cityLabel.text = StringNoNull(self.dic[@"cityname"]);
+    
+    abcArray = [[NSMutableArray alloc]init];
+    abcDic = [[NSMutableDictionary alloc]init];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -93,8 +105,38 @@
                 if ([[dicCity[@"hot"] safeString] integerValue]) {
                     [tablehotArray addObject:dicCity];
                 }
+                NSString *cityname = [dicCity[@"cityname"] safeString];
+                NSString *str = [cityname getFirstCharPinYin];
+                NSMutableArray *array2 = [abcDic objectForKey:str];
+                if (!array2) {
+                    array2 = [[NSMutableArray alloc]init];
+                }
+                [array2 addObject:dicCity];
+                [abcDic setObject:array2 forKey:str];
             }
         }
+        
+        NSComparator cmptr = ^(id obj1, id obj2){
+            NSComparisonResult result = [obj1 compare:obj2];
+            switch(result)
+            {
+                case NSOrderedAscending:
+                    return NSOrderedAscending;
+                case NSOrderedDescending:
+                    return NSOrderedDescending;
+                case NSOrderedSame:
+                    return NSOrderedSame;
+                default:
+                    return NSOrderedSame;
+            }
+        };
+        NSArray *array3 = [[abcDic allKeys] sortedArrayUsingComparator:cmptr];
+//        if ([tablehotArray count]>0) {
+//            [abcDic setObject:tablehotArray forKey:@"热门"];
+//            [abcArray addObject:@"热门"];
+//        }
+        [abcArray addObjectsFromArray:array3];
+        
         [self updateLocationLabel];
         [self.tableView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -266,17 +308,22 @@ errorCode:(BMKSearchErrorCode)error{
 //不使用时将delegate设置为 nil
 #pragma mark - Table view data source
 
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    //返回省份的数组
+    return abcArray;
+}
+
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.width, 45)];
     view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     UILabel *label = [[UILabel alloc]init];
-    if (section==0) {
-        label.text = @"热门城市";
-    }
-    else
+//    if (section==0) {
+//        label.text = @"热门城市";
+//    }
+    //else
     {
-        label.text = [tableArray[section-1][@"cityname"] safeString];
+        label.text = abcArray[section];//[tableArray[section-1][@"cityname"] safeString];
     }
     label.font = [UIFont systemFontOfSize:13];
     label.textColor = [UIColor darkGrayColor];
@@ -296,16 +343,16 @@ errorCode:(BMKSearchErrorCode)error{
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return [tableArray count]+1;
+    return [abcArray count];//[tableArray count]+1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    if (section == 0) {
-        return [tablehotArray count];
-    }
-    return [tableArray[section-1][@"children"] count];
+//    if (section == 0) {
+//        return [tablehotArray count];
+//    }
+    return [abcDic[abcArray[section]] count];
 }
 
 
@@ -314,13 +361,14 @@ errorCode:(BMKSearchErrorCode)error{
     
     // Configure the cell...
     NSDictionary *dic = nil;
-    if (indexPath.section == 0) {
-        dic = tablehotArray[indexPath.row];
-    }
-    else
-    {
-        dic = tableArray[indexPath.section-1][@"children"][indexPath.row];
-    }
+    dic = abcDic[abcArray[indexPath.section]][indexPath.row];
+//    if (indexPath.section == 0) {
+//        dic = tablehotArray[indexPath.row];
+//    }
+//    else
+//    {
+//        dic = abcDic[abcArray[indexPath.section]][indexPath.row];//tableArray[indexPath.section-1][@"children"][indexPath.row];
+//    }
     cell.cityLabel.text = [dic[@"cityname"] safeString];
     return cell;
 }
@@ -329,14 +377,15 @@ errorCode:(BMKSearchErrorCode)error{
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *dic = nil;
-    if (indexPath.section == 0) {
-        dic = tablehotArray[indexPath.row];
-    }
-    else
-    {
-        dic = tableArray[indexPath.section-1][@"children"][indexPath.row];
-    }
-    //self.cityLabel.text = [dic[@"cityname"] safeString];
+     dic = abcDic[abcArray[indexPath.section]][indexPath.row];
+//    if (indexPath.section == 0) {
+//        dic = tablehotArray[indexPath.row];
+//    }
+//    else
+//    {
+//        dic = abcDic[abcArray[indexPath.section]][indexPath.row];//dic = tableArray[indexPath.section-1][@"children"][indexPath.row];
+//    }
+//    //self.cityLabel.text = [dic[@"cityname"] safeString];
     citydic = dic;
     [self.navigationController popViewControllerAnimated:YES];
 }

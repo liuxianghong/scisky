@@ -10,7 +10,7 @@
 //#import "SeverChoiceTableViewController.h"
 
 @interface ServiceProtocolViewController ()
-
+@property (nonatomic,weak) IBOutlet UIWebView *webView;
 @end
 
 @implementation ServiceProtocolViewController
@@ -19,6 +19,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.edgesForExtendedLayout = UIRectEdgeNone;
+    if (self.webView) {
+        NSString *filePath = [[NSBundle mainBundle]pathForResource:@"used2" ofType:@"jpg"];
+        
+        if(filePath)
+        {
+            NSURL *url = [NSURL fileURLWithPath:filePath];
+            NSURLRequest *request = [NSURLRequest requestWithURL:url];
+            [self.webView loadRequest:request];
+            self.webView.scalesPageToFit = YES;
+        }
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {

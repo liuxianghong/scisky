@@ -57,6 +57,7 @@
     type2Need = YES;
     type3Need = YES;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteNotification) name:@"receiveRemoteNotification" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -90,14 +91,34 @@
     }
 }
 
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void)receiveRemoteNotification
+{
+    [self loadData:1];
+//    if (type==1) {
+//        [self.tableView.header beginRefreshing];
+//    }
+//    else
+//        [self loadData:1];
+}
+
 -(void)refreshData
 {
-    __block NSInteger blockType = type;
+    [self loadData:type];
+}
+
+-(void)loadData:(NSInteger)index
+{
+    __block NSInteger blockType = index;
     NSString *uid = [[[NSUserDefaults standardUserDefaults] objectForKey:@"UID"] safeString];
     if (uid) {
         NSDictionary *dicParameters = @{
                                         @"supplierId" : uid,
-                                        @"orderStatus" : @(type)
+                                        @"orderStatus" : @(index)
                                         };
         [MobileAPI GetSupplierOrderListWithParameters:dicParameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"%@",responseObject);
@@ -162,6 +183,7 @@
         
     }
 }
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -265,6 +287,9 @@
                     {
                         hud.detailsLabelText = @"操作成功";
                         [self.tableView.header beginRefreshing];
+                        NSNotification *notification =[NSNotification notificationWithName:@"orderCancel" object:nil userInfo:nil];
+                        //通过通知中心发送通知
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
                     }
                     else
                     {

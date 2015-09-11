@@ -39,8 +39,10 @@
     self.tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:@"logout" object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveRemoteNotification) name:@"receiveRemoteNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orderCancel) name:@"orderCancel" object:nil];
 
+    
     __weak typeof(self) wself = self;
     [self.tableView addLegendHeaderWithRefreshingBlock:^{
         typeof(self) sself = wself;
@@ -122,6 +124,11 @@
             tableArray = arry;//responseObject[@"data"];
             [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%ld",[tableArray count]] forKey:@"ordeNewCount"];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            NSNotification *notification =[NSNotification notificationWithName:@"orderCountUpdate" object:nil userInfo:nil];
+            //通过通知中心发送通知
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+            
             [self.tableView.header endRefreshing];
             [self.tableView reloadData];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -145,6 +152,16 @@
 - (void)logout{
     [self.viewDeckController closeRightViewAnimated:YES];
     first = YES;
+}
+
+-(void)receiveRemoteNotification
+{
+    [self refreshData];
+}
+
+-(void)orderCancel
+{
+    [self refreshData];
 }
 #pragma mark - Table view data source
 
